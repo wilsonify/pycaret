@@ -23,3 +23,4 @@ pycaret/__pycache__/
 pycaret/tests/__pycache__/
 tutorials/logs.log
 /docs/build
+.idea/
