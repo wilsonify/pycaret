@@ -2,6 +2,7 @@
 # ---
 # jupyter:
 #   jupytext:
+#     formats: ipynb,py:light
 #     text_representation:
 #       extension: .py
 #       format_name: light
@@ -19,11 +20,6 @@
 import pandas as pd
 import numpy as np
 import warnings
-warnings.filterwarnings("ignore")
-
-# + id="EJzIqSuqOU0O" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 1000} outputId="a77ba090-ba0d-49e7-84de-26b63ccdc6b4"
-## Installing our favourite pycaret library
-# !pip install pycaret
 
 # + [markdown] id="9ojSqYgIZf7s" colab_type="text"
 # ## Dataset Introduction:
@@ -40,7 +36,7 @@ warnings.filterwarnings("ignore")
 
 # + id="1pkwzPRqORn-" colab_type="code" colab={}
 ## Reading the dataset using pandas
-df=pd.read_csv("CTG.csv")
+df = pd.read_csv("CTG.csv")
 
 # + id="nfMRHcmwORoC" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 216} outputId="5f96bdfc-07b6-40fc-df7c-3c38652ef15c"
 ## Having a look of our data
@@ -94,7 +90,7 @@ df.head()
 
 # + id="qS3F3sS9ORoG" colab_type="code" colab={}
 ## Dropping the columns which we don't need
-df=df.drop(["FileName","Date","SegFile","b","e"],axis=1)
+df = df.drop(["FileName", "Date", "SegFile", "b", "e"], axis=1)
 
 # + id="8_j3dXzCORoI" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 216} outputId="97ba0c46-aeb1-4170-be52-52bbfbc52df1"
 df.head()
@@ -115,7 +111,7 @@ df.isnull().sum()
 
 # + id="mJjIfadIORoW" colab_type="code" colab={}
 ## Dropping the the rows containing null values
-df=df.dropna()
+df = df.dropna()
 
 # + id="VojGGVKZORoY" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 619} outputId="528a202a-4a5a-43f2-c62c-604a5d7efb89"
 df.isnull().sum()
@@ -134,7 +130,7 @@ from pycaret.classification import *
 # + id="mmTt0qoaPb8B" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 918, "referenced_widgets": ["85013890037d4eae9e46bce44ef6fe31", "d1726335eb9847dcb8c408db31d29e39", "c069b042d8ee4808a04e5a02388dbc89", "8b11b69c85564a5fbd8a7656ff91e850", "2016bba888b7450f96b6018d8100e534", "d82f871fd9494cd29198d0758cc3ddde"]} outputId="9d1c6476-fffd-4d78-c678-b3a8c9ed1ace"
 # Setting up the classifier
 # Pass the complete dataset as data and the featured to be predicted as target
-clf=setup(data=df,target='NSP')
+clf = setup(data=df, target='NSP')
 
 # + id="5c5D_CcpP4pR" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 633, "referenced_widgets": ["04d55d6a1d1a482a9b7009586b58979b", "f09f1960e4254302a99b590ce733d608", "fff4b352b5594f77bf468695d468f288"]} outputId="a4a72143-5ccf-4429-f9cd-af1da1210ab0"
 # This model will be used to compare all the model along with the cross validation
@@ -149,7 +145,7 @@ compare_models()
 # ## Creating the Extreme Gradient Boosting(XGBoost) model
 
 # + id="Rvy2ZevaRQB4" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 273, "referenced_widgets": ["1deea41a50a34193a4a1d4a53ef32286", "aa38ef63b6d4402fabe4edb0d6419168", "ed7d18dacd964948995dc160f99736cf"]} outputId="05eac637-6b6a-45f4-cdfd-1d9e15008faf"
-xgboost_classifier=create_model('xgboost')
+xgboost_classifier = create_model('xgboost')
 
 # + id="ov9ni9O_TpsF" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 251} outputId="7e5e6e5b-664c-431f-bcc0-c1a60c517e75"
 ## Let's now check the model hyperparameters
@@ -160,9 +156,9 @@ print(xgboost_classifier)
 
 # + id="N2oq1DlCUKVU" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 273, "referenced_widgets": ["d73315df6042479586c9f7782ba8490b", "92b07214d46b4ae988829aeecd46b921", "7b59664e0dc74453889dbcde7ddd4978"]} outputId="05d577e0-1b52-467d-bc5a-f1cec63be28c"
 # Whenenver we compare different models or build a model, the model uses deault
-#hyperparameter values. Hence, we need to tune our model to get better performance
+# hyperparameter values. Hence, we need to tune our model to get better performance
 
-tuned_xgboost_classifier=tune_model(xgboost_classifier)
+tuned_xgboost_classifier = tune_model(xgboost_classifier)
 
 # + [markdown] id="nFWNkrBXU8Dr" colab_type="text"
 # #### We can clearly conclude that our tuned model has performed better than our original model with default hyperparameters. The mean accuracy increased from 0.9899 to 0.9906
@@ -178,27 +174,27 @@ tuned_xgboost_classifier=tune_model(xgboost_classifier)
 # ## Classification Report
 
 # + id="WqjMk3NAWfXf" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 401, "referenced_widgets": ["aec1a6ff8c24465d9a90d427594eb11f"]} outputId="e7bf4228-8280-4e92-e2ac-5a92138e7503"
-plot_model(tuned_xgboost_classifier,plot='class_report')
+plot_model(tuned_xgboost_classifier, plot='class_report')
 
 # + [markdown] id="73pMQyL2W3kl" colab_type="text"
 # ## Plotting the confusion matrix
 
 # + id="iEuobdjkUplF" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 387, "referenced_widgets": ["6833484a36ba4c289e68a046d6c5f25e"]} outputId="09376b67-9df8-45ca-afc4-70099ffc7f50"
-plot_model(tuned_xgboost_classifier,plot='confusion_matrix')
+plot_model(tuned_xgboost_classifier, plot='confusion_matrix')
 
 # + [markdown] id="qA09Ng-xYLum" colab_type="text"
 # ## Saving the model for future predictions
 
 # + id="DFCJOP3tXDzd" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 33} outputId="f9102521-8e3d-49a3-ef63-c3ef325aa917"
 ## This can be used to save our trained model for future use.
-save_model(tuned_xgboost_classifier,"XGBOOST CLASSIFIER")
+save_model(tuned_xgboost_classifier, "XGBOOST CLASSIFIER")
 
 # + [markdown] id="lJTv2sxhYXbr" colab_type="text"
 # ## Loading the saved model
 
 # + id="F9JCVRfVYWDK" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 33} outputId="e3897b2d-09da-4339-fc2c-0384f6eb4cfa"
 ## This can be used to load our model. We don't need to train our model again and again.
-saved_model=load_model('XGBOOST CLASSIFIER')
+saved_model = load_model('XGBOOST CLASSIFIER')
 
 # + id="BrS9puqeYe-r" colab_type="code" colab={}
 

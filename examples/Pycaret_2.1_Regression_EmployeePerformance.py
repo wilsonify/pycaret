@@ -1,15 +1,16 @@
 # ---
 # jupyter:
 #   jupytext:
+#     formats: ipynb,py:light
 #     text_representation:
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
 #       jupytext_version: 1.4.0
 #   kernelspec:
-#     display_name: 'Python 3.7.4 64-bit (''anaconda3'': conda)'
+#     display_name: Python 3
 #     language: python
-#     name: python37464bitanaconda3condaf61d2c006c554469863888b48b6c30fb
+#     name: python3
 # ---
 
 # + [markdown] colab_type="text" id="AGnxWL3OE-xN"

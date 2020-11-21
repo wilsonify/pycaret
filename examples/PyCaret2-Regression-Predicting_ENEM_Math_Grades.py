@@ -1,15 +1,16 @@
 # ---
 # jupyter:
 #   jupytext:
+#     formats: ipynb,py:light
 #     text_representation:
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
 #       jupytext_version: 1.4.0
 #   kernelspec:
-#     display_name: hyraka_env
+#     display_name: Python 3
 #     language: python
-#     name: hyraka_env
+#     name: python3
 # ---
 
 # ### Predicting the best math grades of the ENEM 2016

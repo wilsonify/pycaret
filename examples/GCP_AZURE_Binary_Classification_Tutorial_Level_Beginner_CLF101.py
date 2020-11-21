@@ -1,6 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
+#     formats: ipynb,py:light
 #     text_representation:
 #       extension: .py
 #       format_name: light
@@ -12,15 +13,8 @@
 #     name: python3
 # ---
 
-# + [markdown] id="view-in-github" colab_type="text"
-# <a href="https://colab.research.google.com/github/amjadraza/pycaret/blob/feature%2Fgcp_zure_integration/tutorials/GCP_AZURE_Binary_Classification_Tutorial_Level_Beginner_CLF101.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
-
 # + [markdown] colab_type="text" id="Y57RMM1LEQmR"
 # #  <span style="color:orange">Binary Classification  Tutorial (CLF101) - Level Beginner</span>
-
-# + id="LrRweUsz9bSl" colab_type="code" colab={}
-# ! pip uninstall pycaret
-# !pip install git+https://github.com/amjadraza/pycaret.git@feature/gcp_zure_integration
 
 # + id="3sXuMNuqG6PG" colab_type="code" colab={}
 from pycaret.classification import *

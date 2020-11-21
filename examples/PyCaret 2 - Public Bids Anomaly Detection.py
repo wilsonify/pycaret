@@ -2,15 +2,16 @@
 # ---
 # jupyter:
 #   jupytext:
+#     formats: ipynb,py:light
 #     text_representation:
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
 #       jupytext_version: 1.4.0
 #   kernelspec:
-#     display_name: pycaret
+#     display_name: Python 3
 #     language: python
-#     name: pycaret
+#     name: python3
 # ---
 
 # # 1. Introduction
