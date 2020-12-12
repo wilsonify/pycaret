@@ -2,6 +2,7 @@
 import glob
 import logging
 import os
+import time
 
 from matplotlib import pyplot as plt
 import sklearn
@@ -32,7 +33,7 @@ from pycaret.classification import (
 
 from sacred import SETTINGS
 
-SETTINGS['CAPTURE_MODE'] = 'sys'  # work around for joblib timeout
+SETTINGS['CAPTURE_MODE'] = 'sys'
 
 fso = FileStorageObserver(
     basedir="my_runs",
@@ -57,7 +58,7 @@ mdbo = MongoObserver(
     failure_dir="my_failures"
 )
 
-ex = Experiment("pycaret classification on juice1 dataset")
+ex = Experiment("minimal pycaret classification on juice1 dataset")
 ex.observers.append(fso)
 ex.observers.append(mdbo)
 ex.add_config(
@@ -150,9 +151,11 @@ def run(_config):
 
     """
     logging.info("start run")
+    logging.info("get data")
     index = get_data('index')
     data = get_data('juice')
 
+    logging.info("setup classification")
     clf1 = setup(
         data=data,
         target='Purchase',
@@ -227,83 +230,28 @@ def run(_config):
         profile=_config["profile"],
         profile_kwargs=_config["profile_kwargs"],
     )
+    logging.info("setup classification done")
 
+    logging.info("compare models")
     best_model = compare_models()
-    lr = create_model('lr')
-    dt = create_model('dt')
-    rf = create_model('rf', fold=5)
-
-    ensembled_models = compare_models(
-        include=[
-            'rf',
-            'ada',
-            'gbc',
-            'et',
-            'xgboost',
-            'lightgbm',
-            'catboost'
-        ], fold=3)
-    tuned_lr = tune_model(lr)
-    tuned_rf = tune_model(rf)
-
-    bagged_dt = ensemble_model(dt)
-    boosted_dt = ensemble_model(dt, method='Boosting')
-    blender = blend_models(estimator_list=[boosted_dt, bagged_dt, tuned_rf], method='soft')
-    stacker = stack_models(estimator_list=[boosted_dt, bagged_dt, tuned_rf], meta_model=rf)
-
-    # # 9. Analyze Model
-    plot_model(
-        estimator=rf,
-        plot="auc",
-        scale=1,
-        save=True,
-        fold=None,
-        fit_kwargs=None,
-        groups=None,
-        use_train_data=False,
-        verbose=True,
-    )
-    plot_model(rf, plot='confusion_matrix', save=True, )
-    plot_model(rf, plot='boundary', save=True, )
-    plot_model(rf, plot='feature', save=True, )
-    plot_model(rf, plot='pr', save=True, )
-    plot_model(rf, plot='class_report', save=True, )
-    evaluate_model(rf)
-
-    catboost = create_model(
-        estimator='catboost',
-        fold=None,
-        round=4,
-        cross_validation=False,
-        fit_kwargs=None,
-        groups=None,
-        verbose=True,
-    )
-    interpret_model(catboost, plot="summary", show=False)
-    plt.savefig("catboost summary.png")
-    interpret_model(catboost, plot='correlation', show=False)
-    plt.savefig("catboost correlation.png")
-    interpret_model(catboost, plot='reason', observation=12, show=False)
-    plt.savefig("catboost reason for observation 12.png")
-
-    best = automl(optimize='Recall')
-    print(best)
-
-    pred_holdouts = predict_model(lr)
-    print(pred_holdouts.head())
-
-    new_data = data.copy()
-    new_data_y = data['Purchase']
-    new_data.drop(['Purchase'], axis=1, inplace=True)
-    predict_new = predict_model(best, data=new_data)
-    predict_new.head()
-
-    save_model(best, model_name='best-model')
-    # loaded_bestmodel = load_model('best-model')
-    # print(loaded_bestmodel)
-    print("done")
-
-    return float(sklearn.metrics.log_loss(y_pred=predict_new['Score'], y_true=new_data_y))
+    logging.info("compare models done")
+    if 'predict_proba' in dir(best_model):
+        plot_model(
+            estimator=best_model,
+            plot="auc",
+            scale=1,
+            save=True,
+            fold=None,
+            fit_kwargs=None,
+            groups=None,
+            use_train_data=False,
+            verbose=True,
+        )
+    plot_model(best_model, plot='confusion_matrix', save=True, )
+    plot_model(best_model, plot='boundary', save=True, )
+    plot_model(best_model, plot='feature', save=True, )
+    plot_model(best_model, plot='pr', save=True, )
+    plot_model(best_model, plot='class_report', save=True, )
 
 
 if __name__ == "__main__":
