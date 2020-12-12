@@ -1,3 +1,7 @@
+"""
+PyCaret 2 Classification Example
+This notebook is created using PyCaret 2.0. Last updated : 31-07-2020
+"""
 # ---
 # jupyter:
 #   jupytext:
@@ -12,16 +16,16 @@
 #     name: python3
 # ---
 
-# # PyCaret 2 Classification Example
-# This notebook is created using PyCaret 2.0. Last updated : 31-07-2020
 
 # check version
 from pycaret.utils import version
+
 version()
 
 # # 1. Data Repository
 
 from pycaret.datasets import get_data
+
 index = get_data('index')
 
 data = get_data('juice')
@@ -29,7 +33,8 @@ data = get_data('juice')
 # # 2. Initialize Setup
 
 from pycaret.classification import *
-clf1 = setup(data, target = 'Purchase', session_id=123, log_experiment=True, experiment_name='juice1')
+
+clf1 = setup(data, target='Purchase', session_id=123, log_experiment=True, experiment_name='juice1')
 
 # # 3. Compare Baseline
 
@@ -41,13 +46,13 @@ lr = create_model('lr')
 
 dt = create_model('dt')
 
-rf = create_model('rf', fold = 5)
+rf = create_model('rf', fold=5)
 
 models()
 
 models(type='ensemble').index.tolist()
 
-ensembled_models = compare_models(whitelist = models(type='ensemble').index.tolist(), fold = 3)
+ensembled_models = compare_models(include=models(type='ensemble').index.tolist(), fold=3)
 
 # # 5. Tune Hyperparameters
 
@@ -59,29 +64,29 @@ tuned_rf = tune_model(rf)
 
 bagged_dt = ensemble_model(dt)
 
-boosted_dt = ensemble_model(dt, method = 'Boosting')
+boosted_dt = ensemble_model(dt, method='Boosting')
 
 # # 7. Blend Models
 
-blender = blend_models(estimator_list = [boosted_dt, bagged_dt, tuned_rf], method = 'soft')
+blender = blend_models(estimator_list=[boosted_dt, bagged_dt, tuned_rf], method='soft')
 
 # # 8. Stack Models
 
-stacker = stack_models(estimator_list = [boosted_dt,bagged_dt,tuned_rf], meta_model=rf)
+stacker = stack_models(estimator_list=[boosted_dt, bagged_dt, tuned_rf], meta_model=rf)
 
 # # 9. Analyze Model
 
 plot_model(rf)
 
-plot_model(rf, plot = 'confusion_matrix')
+plot_model(rf, plot='confusion_matrix')
 
-plot_model(rf, plot = 'boundary')
+plot_model(rf, plot='boundary')
 
-plot_model(rf, plot = 'feature')
+plot_model(rf, plot='feature')
 
-plot_model(rf, plot = 'pr')
+plot_model(rf, plot='pr')
 
-plot_model(rf, plot = 'class_report')
+plot_model(rf, plot='class_report')
 
 evaluate_model(rf)
 
@@ -91,13 +96,13 @@ catboost = create_model('catboost', cross_validation=False)
 
 interpret_model(catboost)
 
-interpret_model(catboost, plot = 'correlation')
+interpret_model(catboost, plot='correlation')
 
-interpret_model(catboost, plot = 'reason', observation = 12)
+interpret_model(catboost, plot='reason', observation=12)
 
 # # 11. AutoML()
 
-best = automl(optimize = 'Recall')
+best = automl(optimize='Recall')
 best
 
 # # 12. Predict Model
@@ -118,15 +123,17 @@ loaded_bestmodel = load_model('best-model')
 print(loaded_bestmodel)
 
 from sklearn import set_config
+
 set_config(display='diagram')
 loaded_bestmodel[0]
 
 from sklearn import set_config
+
 set_config(display='text')
 
 # # 14. Deploy Model
 
-deploy_model(best, model_name = 'best-aws', authentication = {'bucket' : 'pycaret-test'})
+deploy_model(best, model_name='best-aws', authentication={'bucket': 'pycaret-test'})
 
 # # 15. Get Config / Set Config
 
@@ -136,15 +143,7 @@ X_train.head()
 get_config('seed')
 
 from pycaret.classification import set_config
+
 set_config('seed', 999)
 
 get_config('seed')
-
-# # 16. MLFlow UI
-
-# +
-# # !mlflow ui
-# -
-
-# # End
-# Thank you. For more information / tutorials on PyCaret, please visit https://www.pycaret.org
