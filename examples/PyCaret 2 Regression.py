@@ -59,11 +59,13 @@ boosted_dt = ensemble_model(dt, method = 'Boosting')
 
 # # 7. Blend Models
 
-blender = blend_models()
+top_five = compare_models(n_select=5, fold = 5, include = list(models().index))
+
+blender = blend_models(estimator_list = top_five)
 
 # # 8. Stack Models
 
-stacker = stack_models(estimator_list = compare_models(n_select=5, fold = 5, whitelist = models(type='ensemble').index.tolist()))
+stacker = stack_models(estimator_list = top_five)
 
 # # 9. Analyze Model
 
@@ -109,12 +111,14 @@ from sklearn import set_config
 set_config(display='diagram')
 loaded_bestmodel[0]
 
-from sklearn import set_config
-set_config(display='text')
+from pycaret.regression  import get_config, set_config
+#set_config(display='text')
 
 # # 14. Deploy Model
 
-deploy_model(best, model_name = 'best-aws', authentication = {'bucket' : 'pycaret-test'})
+# +
+#deploy_model(best, model_name = 'best-aws', authentication = {'bucket' : 'pycaret-test'})
+# -
 
 # # 15. Get Config / Set Config
 
@@ -127,10 +131,3 @@ from pycaret.regression import set_config
 set_config('seed', 999)
 
 get_config('seed')
-
-# # 16. MLFlow UI
-
-# !mlflow ui
-
-# # End
-# Thank you. For more information / tutorials on PyCaret, please visit https://www.pycaret.org
