@@ -59,6 +59,9 @@ class RegressorContainer(ModelContainer):
         If None, will try to automatically determine.
     is_boosting_supported : bool, default = None
         If None, will try to automatically determine.
+    tunable : type, default = None
+        If a special tunable model is used for tuning, type of
+        that model, else None.
 
     Attributes
     ----------
@@ -89,6 +92,10 @@ class RegressorContainer(ModelContainer):
         If None, will try to automatically determine.
     is_boosting_supported : bool
         If None, will try to automatically determine.
+    tunable : type
+        If a special tunable model is used for tuning, type of
+        that model, else None.
+
     """
 
     def __init__(
@@ -105,6 +112,7 @@ class RegressorContainer(ModelContainer):
         tune_args: Dict[str, Any] = None,
         shap: Union[bool, str] = False,
         is_gpu_enabled: Optional[bool] = None,
+        tunable: Optional[type] = None,
     ) -> None:
 
         self.shap = shap
@@ -135,6 +143,7 @@ class RegressorContainer(ModelContainer):
         self.tune_grid = param_grid_to_lists(tune_grid)
         self.tune_distribution = tune_distribution
         self.tune_args = tune_args
+        self.tunable = tunable
 
         self.is_boosting_supported = True
         self.is_soft_voting_supported = True
@@ -178,6 +187,7 @@ class RegressorContainer(ModelContainer):
                 ("Tune Args", self.tune_args),
                 ("SHAP", self.shap),
                 ("GPU Enabled", self.is_gpu_enabled),
+                ("Tunable Class", self.tunable),
             ]
 
         return dict(d)
@@ -1246,7 +1256,22 @@ class AdaBoostRegressorContainer(RegressorContainer):
         tune_args = {}
         tune_grid = {
             "n_estimators": np_list_arange(10, 300, 10, inclusive=True),
-            "learning_rate": np_list_arange(0.001, 0.5, 0.001, inclusive=True),
+            "learning_rate": [
+                0.0000001,
+                0.000001,
+                0.0001,
+                0.001,
+                0.01,
+                0.0005,
+                0.005,
+                0.05,
+                0.1,
+                0.15,
+                0.2,
+                0.3,
+                0.4,
+                0.5,
+            ],
             "loss": ["linear", "square", "exponential"],
         }
         tune_distributions = {
@@ -1279,7 +1304,22 @@ class GradientBoostingRegressorContainer(RegressorContainer):
         tune_args = {}
         tune_grid = {
             "n_estimators": np_list_arange(10, 300, 10, inclusive=True),
-            "learning_rate": np_list_arange(0.001, 0.5, 0.001, inclusive=True),
+            "learning_rate": [
+                0.0000001,
+                0.000001,
+                0.0001,
+                0.001,
+                0.01,
+                0.0005,
+                0.005,
+                0.05,
+                0.1,
+                0.15,
+                0.2,
+                0.3,
+                0.4,
+                0.5,
+            ],
             "subsample": np_list_arange(0.2, 1, 0.05, inclusive=True),
             "min_samples_split": [2, 4, 5, 7, 9, 10],
             "min_samples_leaf": [1, 2, 3, 4, 5],
@@ -1333,7 +1373,8 @@ class MLPRegressorContainer(RegressorContainer):
         logger = get_logger()
         np.random.seed(globals_dict["seed"])
 
-        from pycaret.internal.tunable import TunableMLPRegressor as MLPRegressor
+        from sklearn.neural_network import MLPRegressor
+        from pycaret.internal.tunable import TunableMLPRegressor
 
         args = {"random_state": globals_dict["seed"], "max_iter": 500}
         tune_args = {}
@@ -1381,6 +1422,7 @@ class MLPRegressorContainer(RegressorContainer):
             tune_args=tune_args,
             is_turbo=False,
             shap=False,
+            tunable=TunableMLPRegressor,
         )
 
 
@@ -1388,6 +1430,20 @@ class XGBRegressorContainer(RegressorContainer):
     def __init__(self, globals_dict: dict) -> None:
         logger = get_logger()
         np.random.seed(globals_dict["seed"])
+        try:
+            import xgboost
+        except ImportError:
+            logger.warning("Couldn't import xgboost.XGBRegressor")
+            self.active = False
+            return
+
+        xgboost_version = tuple([int(x) for x in xgboost.__version__.split(".")])
+        if xgboost_version < (1, 1, 0):
+            logger.warning(
+                f"Wrong xgboost version. Expected xgboost>=1.1.0, got xgboost=={xgboost_version}"
+            )
+            self.active = False
+            return
 
         from xgboost import XGBRegressor
 
@@ -1400,7 +1456,22 @@ class XGBRegressorContainer(RegressorContainer):
         }
         tune_args = {}
         tune_grid = {
-            "learning_rate": np_list_arange(0.001, 0.5, 0.001, inclusive=True),
+            "learning_rate": [
+                0.0000001,
+                0.000001,
+                0.0001,
+                0.001,
+                0.01,
+                0.0005,
+                0.005,
+                0.05,
+                0.1,
+                0.15,
+                0.2,
+                0.3,
+                0.4,
+                0.5,
+            ],
             "n_estimators": np_list_arange(10, 300, 10, inclusive=True),
             "subsample": [0.2, 0.3, 0.5, 0.7, 0.9, 1],
             "max_depth": np_list_arange(1, 11, 1, inclusive=True),
@@ -1494,8 +1565,41 @@ class LGBMRegressorContainer(RegressorContainer):
         }
         tune_args = {}
         tune_grid = {
-            "num_leaves": [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200],
-            "learning_rate": np_list_arange(0.001, 0.5, 0.001, inclusive=True),
+            "num_leaves": [
+                2,
+                4,
+                6,
+                8,
+                10,
+                20,
+                30,
+                40,
+                50,
+                60,
+                70,
+                80,
+                90,
+                100,
+                150,
+                200,
+                256,
+            ],
+            "learning_rate": [
+                0.0000001,
+                0.000001,
+                0.0001,
+                0.001,
+                0.01,
+                0.0005,
+                0.005,
+                0.05,
+                0.1,
+                0.15,
+                0.2,
+                0.3,
+                0.4,
+                0.5,
+            ],
             "n_estimators": np_list_arange(10, 300, 10, inclusive=True),
             "min_split_gain": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
             "reg_alpha": [
@@ -1546,21 +1650,20 @@ class LGBMRegressorContainer(RegressorContainer):
             ],
             "feature_fraction": np_list_arange(0.4, 1, 0.1, inclusive=True),
             "bagging_fraction": np_list_arange(0.4, 1, 0.1, inclusive=True),
-            "bagging_freq": [1, 2, 3, 4, 5, 6, 7],
-            "min_child_samples": np_list_arange(5, 100, 5, inclusive=True),
+            "bagging_freq": [0, 1, 2, 3, 4, 5, 6, 7],
+            "min_child_samples": np_list_arange(1, 100, 5, inclusive=True),
         }
         tune_distributions = {
-            "num_leaves": IntUniformDistribution(10, 200),
+            "num_leaves": IntUniformDistribution(2, 256),
             "learning_rate": UniformDistribution(0.000001, 0.5, log=True),
             "n_estimators": IntUniformDistribution(10, 300),
             "min_split_gain": UniformDistribution(0, 1),
             "reg_alpha": UniformDistribution(0.0000000001, 10, log=True),
             "reg_lambda": UniformDistribution(0.0000000001, 10, log=True),
-            "min_data_in_leaf": IntUniformDistribution(10, 10000),
             "feature_fraction": UniformDistribution(0.4, 1),
             "bagging_fraction": UniformDistribution(0.4, 1),
-            "bagging_freq": IntUniformDistribution(1, 7),
-            "min_child_samples": IntUniformDistribution(5, 100),
+            "bagging_freq": IntUniformDistribution(0, 7),
+            "min_child_samples": IntUniformDistribution(1, 100),
         }
 
         leftover_parameters_to_categorical_distributions(tune_grid, tune_distributions)
@@ -1599,6 +1702,21 @@ class CatBoostRegressorContainer(RegressorContainer):
     def __init__(self, globals_dict: dict) -> None:
         logger = get_logger()
         np.random.seed(globals_dict["seed"])
+        try:
+            import catboost
+        except ImportError:
+            logger.warning("Couldn't import catboost.CatBoostRegressor")
+            self.active = False
+            return
+
+        catboost_version = tuple([int(x) for x in catboost.__version__.split(".")])
+        if catboost_version < (0, 23, 2):
+            logger.warning(
+                f"Wrong catboost version. Expected catboost>=0.23.2, got catboost=={catboost_version}"
+            )
+            self.active = False
+            return
+
         from catboost import CatBoostRegressor
 
         # suppress output
@@ -1617,12 +1735,29 @@ class CatBoostRegressorContainer(RegressorContainer):
         }
         tune_args = {}
         tune_grid = {
+            "eta": [
+                0.0000001,
+                0.000001,
+                0.0001,
+                0.001,
+                0.01,
+                0.0005,
+                0.005,
+                0.05,
+                0.1,
+                0.15,
+                0.2,
+                0.3,
+                0.4,
+                0.5,
+            ],
             "depth": list(range(1, 12)),
             "n_estimators": np_list_arange(10, 300, 10, inclusive=True),
             "random_strength": np_list_arange(0, 0.8, 0.1, inclusive=True),
             "l2_leaf_reg": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 50, 100, 200],
         }
         tune_distributions = {
+            "eta": UniformDistribution(0.000001, 0.5, log=True),
             "depth": IntUniformDistribution(1, 11),
             "n_estimators": IntUniformDistribution(10, 300),
             "random_strength": UniformDistribution(0, 0.8),
@@ -1717,7 +1852,8 @@ class VotingRegressorContainer(RegressorContainer):
     def __init__(self, globals_dict: dict) -> None:
         logger = get_logger()
         np.random.seed(globals_dict["seed"])
-        from pycaret.internal.tunable import TunableVotingRegressor as VotingRegressor
+        from sklearn.ensemble import VotingRegressor
+        from pycaret.internal.tunable import TunableVotingRegressor
 
         args = {}
         tune_args = {}
@@ -1740,6 +1876,7 @@ class VotingRegressorContainer(RegressorContainer):
             shap=False,
             is_special=True,
             is_gpu_enabled=False,
+            tunable=TunableVotingRegressor,
         )
 
 

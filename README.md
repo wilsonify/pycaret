@@ -1,7 +1,7 @@
 ![alt text](https://github.com/pycaret/pycaret/blob/master/pycaret2.2.png)
 
 # PyCaret 2.2
-![pytest on push](https://github.com/pycaret/pycaret/workflows/pytest%20on%20push/badge.svg) [![Documentation Status](https://readthedocs.org/projects/pip/badge/?version=stable)](http://pip.pypa.io/en/stable/?badge=stable) [![PyPI version](https://badge.fury.io/py/pycaret.svg)](https://badge.fury.io/py/pycaret) [![License](https://img.shields.io/pypi/l/ansicolortags.svg)](https://img.shields.io/pypi/l/ansicolortags.svg) [![Git count](http://hits.dwyl.com/pycaret/pycaret/pycaret.svg)](http://hits.dwyl.com/pycaret/pycaret/pycaret)
+![Python](https://img.shields.io/badge/Python-3.6%20%7C%203.7%20%7C%203.8-blue) ![pytest on push](https://github.com/pycaret/pycaret/workflows/pytest%20on%20push/badge.svg) [![Documentation Status](https://readthedocs.org/projects/pip/badge/?version=stable)](http://pip.pypa.io/en/stable/?badge=stable) [![PyPI version](https://badge.fury.io/py/pycaret.svg)](https://badge.fury.io/py/pycaret) [![License](https://img.shields.io/pypi/l/ansicolortags.svg)](https://img.shields.io/pypi/l/ansicolortags.svg) [![Git count](http://hits.dwyl.com/pycaret/pycaret/pycaret.svg)](http://hits.dwyl.com/pycaret/pycaret/pycaret) [![Slack](https://img.shields.io/badge/slack-chat-green.svg?logo=slack)](https://join.slack.com/t/pycaretworkspace/shared_invite/zt-kdoe7hee-yvNANPHXPM9VtK7R6Npx4Q) 
 
 ## What is PyCaret?
 PyCaret is an open-source, low-code machine learning library in Python that automates machine learning workflows. It is an end-to-end machine learning and model management tool that speeds up the experiment cycle exponentially and makes you more productive.
@@ -31,6 +31,8 @@ pip install pycaret[full]
 ```
 
 ### Minor Release
+- [December 22, 2020] `2.2.3` released fixing several bugs. Major compatibility issues of catboost, pyod (other impacts unknown as of now) with sklearn=0.24 (released on Dec 22, 2020). Temporary fix is requiring 0.23.2 specifically in the `requirements.txt`. [Click here](https://github.com/pycaret/pycaret/releases) to see release notes.
+- [November 25, 2020] `2.2.2` released fixing several bugs. [Click here](https://github.com/pycaret/pycaret/releases) to see release notes.
 - [November 9, 2020] `2.2.1` released fixing several bugs. [Click here](https://github.com/pycaret/pycaret/releases) to see release notes.
 
 ## PyCaret on GPU
@@ -69,6 +71,7 @@ cuML >= 0.15 cannot be installed on Google Colab. Instead use blazingSQL (https:
 - Other Resources: https://github.com/pycaret/pycaret/tree/master/resources 
 - Issue Logs: https://github.com/pycaret/pycaret/issues
 - Contribute: https://pycaret.readthedocs.io/en/latest/contribute.html
+- Join Slack Community: https://join.slack.com/t/pycaretworkspace/shared_invite/zt-kdoe7hee-yvNANPHXPM9VtK7R6Npx4Q  
 
 ## Who should use PyCaret?
 PyCaret is an open source library that anybody can use. In our view the ideal target audience of PyCaret is: <br />
@@ -87,11 +90,11 @@ Made with [contributors-img](https://contributors-img.web.app).
 
 ## License
 
-Copyright 2019-2020 Moez Ali <moez.ali@queensu.ca>
+Copyright 2021-2022 Moez Ali <moez.ali@queensu.ca>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-© 2020 GitHub, Inc.
+© 2021 GitHub, Inc.

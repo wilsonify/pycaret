@@ -1008,6 +1008,7 @@ def tune_model(
             - 'grid' : grid search
             - 'bayesian' : ``pip install scikit-optimize``
             - 'hyperopt' : ``pip install hyperopt``
+            - 'optuna' : ``pip install optuna``
             - 'bohb' : ``pip install hpbandster ConfigSpace``
 
         - 'optuna' possible values:
@@ -1432,6 +1433,7 @@ def plot_model(
     groups: Optional[Union[str, Any]] = None,
     use_train_data: bool = False,
     verbose: bool = True,
+    display_format: Optional[str] = None
 ) -> str:
 
     """
@@ -1511,6 +1513,11 @@ def plot_model(
         When set to False, progress bar is not displayed.
 
 
+    display_format: str, default = None
+        To display plots in Streamlit (https://www.streamlit.io/), set this to 'streamlit'.
+        Currently, not all plots are supported.
+
+
     Returns:
         None
         
@@ -1539,6 +1546,7 @@ def plot_model(
         verbose=verbose,
         use_train_data=use_train_data,
         system=True,
+        display_format=display_format
     )
 
 
@@ -1617,6 +1625,7 @@ def interpret_model(
     feature: Optional[str] = None,
     observation: Optional[int] = None,
     use_train_data: bool = False,
+    save: bool = False,
     **kwargs,
 ):
 
@@ -1659,6 +1668,10 @@ def interpret_model(
         of test data.
 
 
+    save: bool, default = False
+        When set to True, Plot is saved as a 'png' file in current working directory.
+
+
     **kwargs:
         Additional keyword arguments to pass to the plot.
 
@@ -1674,6 +1687,7 @@ def interpret_model(
         feature=feature,
         observation=observation,
         use_train_data=use_train_data,
+        save=save,
         **kwargs,
     )
 
@@ -1832,6 +1846,7 @@ def predict_model(
     data: Optional[pd.DataFrame] = None,
     probability_threshold: Optional[float] = None,
     encoded_labels: bool = False,
+    raw_score: bool = False,
     round: int = 4,
     verbose: bool = True,
 ) -> pd.DataFrame:
@@ -1872,6 +1887,10 @@ def predict_model(
         When set to True, will return labels encoded as an integer.
 
 
+    raw_score: bool, default = False
+        When set to True, scores for all labels will be returned.
+
+
     round: int, default = 4
         Number of decimal places the metrics in the score grid will be rounded to. 
 
@@ -1898,6 +1917,7 @@ def predict_model(
         data=data,
         probability_threshold=probability_threshold,
         encoded_labels=encoded_labels,
+        raw_score=raw_score,
         round=round,
         verbose=verbose,
         ml_usecase=MLUsecase.CLASSIFICATION,

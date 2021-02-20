@@ -2,11 +2,10 @@
 # Author: Moez Ali <moez.ali@queensu.ca>
 # License: MIT
 
-import numpy as np
 import pandas as pd
 
-version_ = "2.2.1"
-nightly_version_ = "2.2.1"
+version_ = "2.3.0"
+nightly_version_ = "2.3.0"
 
 __version__ = version_
 
@@ -27,7 +26,7 @@ def check_metric(actual: pd.Series, prediction: pd.Series, metric: str, round: i
 
     actual : pandas.Series
         Actual values of the target variable.
-    
+
 
     prediction : pandas.Series
         Predicted values of the target variable.
