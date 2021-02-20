@@ -3,7 +3,6 @@ import os, sys
 sys.path.insert(0, os.path.abspath(".."))
 
 import numpy as np
-import pandas as pd
 import pytest
 import pycaret.utils
 import pycaret.classification
@@ -32,7 +31,7 @@ def test():
         data, train_size=0.8, random_state=1
     )
     clf1 = pycaret.classification.setup(
-        train, target=target, silent=True, html=False, session_id=123
+        train, target=target, silent=True, html=False, session_id=123, n_jobs=1,
     )
     model = pycaret.classification.create_model("lightgbm")
     data_unseen = test.drop(columns=target)
@@ -86,7 +85,7 @@ def test():
         data, train_size=0.8, random_state=1
     )
     reg1 = pycaret.regression.setup(
-        data, target="medv", silent=True, html=False, session_id=123
+        data, target="medv", silent=True, html=False, session_id=123, n_jobs=1,
     )
     model = pycaret.regression.create_model("lightgbm")
     data_unseen = test.drop(columns=target)
@@ -122,6 +121,18 @@ def test():
     mape = pycaret.utils.check_metric(actual, prediction, "MAPE")
     assert isinstance(mape, float)
     assert mape >= 0
+
+    # Ensure metric is rounded to 2 decimals
+    mape = pycaret.utils.check_metric(actual, prediction, "MAPE", 2)
+    assert mape == 0.05
+
+    # Ensure metric is rounded to default value
+    mape = pycaret.utils.check_metric(actual, prediction, "MAPE")
+    assert mape == 0.0469
+
+    # Metric does not exist
+    with pytest.raises(ValueError, match="Couldn't find metric"):
+        pycaret.utils.check_metric(actual, prediction, "INEXISTENTMETRIC")
 
     assert 1 == 1
 

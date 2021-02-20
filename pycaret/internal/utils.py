@@ -15,6 +15,7 @@ from pycaret.internal.validation import *
 from typing import Any, List, Optional, Dict, Tuple, Union
 from sklearn import clone
 from sklearn.model_selection import KFold, StratifiedKFold, BaseCrossValidator
+from sklearn.model_selection._split import _BaseKFold
 
 
 def get_config(variable: str, globals_d: dict):
@@ -122,7 +123,14 @@ def save_config(file_name: str, globals_d: dict):
     logger.info("Initializing save_config()")
     logger.info(f"save_config({function_params_str})")
 
-    globals_to_ignore = {"_all_models", "_all_models_internal", "_all_metrics"}
+    globals_to_ignore = {
+        "_all_models",
+        "_all_models_internal",
+        "_all_metrics",
+        "create_model_container",
+        "master_model_container",
+        "display_container",
+    }
 
     globals_to_dump = {
         k: v
@@ -430,6 +438,12 @@ def get_cv_splitter(
         return fold
     if type(fold) is int:
         if default is not None:
+            if isinstance(default, _BaseKFold) and fold <= 1:
+                raise ValueError(
+                    "k-fold cross-validation requires at least one"
+                    " train/test split by setting n_splits=2 or more,"
+                    f" got n_splits={fold}."
+                )
             try:
                 default_copy = deepcopy(default)
                 default_copy.n_splits = fold
@@ -437,10 +451,11 @@ def get_cv_splitter(
             except:
                 raise ValueError(f"Couldn't set 'n_splits' to {fold} for {default}.")
         else:
+            fold_seed = seed if shuffle else None
             if int_default == "kfold":
-                return KFold(fold, random_state=seed, shuffle=shuffle)
+                return KFold(fold, random_state=fold_seed, shuffle=shuffle)
             elif int_default == "stratifiedkfold":
-                return StratifiedKFold(fold, random_state=seed, shuffle=shuffle)
+                return StratifiedKFold(fold, random_state=fold_seed, shuffle=shuffle)
             else:
                 raise ValueError(
                     "Wrong value for int_default param. Needs to be either 'kfold' or 'stratifiedkfold'."
@@ -461,14 +476,15 @@ def get_cv_n_folds(
         return fold.get_n_splits(X, y=y, groups=groups)
 
 
-class none_n_jobs(object):
+class set_n_jobs(object):
     """
     Context which sets `n_jobs` or `thread_count` to None for passed model.
     """
 
-    def __init__(self, model):
+    def __init__(self, model, n_jobs=None):
         self.params = {}
         self.model = model
+        self.n_jobs = n_jobs
         try:
             self.params = {
                 k: v
@@ -480,7 +496,7 @@ class none_n_jobs(object):
 
     def __enter__(self):
         if self.params:
-            self.model.set_params(**{k: None for k, v in self.params.items()})
+            self.model.set_params(**{k: self.n_jobs for k, v in self.params.items()})
 
     def __exit__(self, type, value, traceback):
         if self.params:
@@ -611,12 +627,15 @@ def can_early_stop(
     else:
         can_warm_start = False
 
-    if consider_xgboost:
-        from xgboost.sklearn import XGBModel
+    is_xgboost = False
 
-        is_xgboost = isinstance(base_estimator, XGBModel)
-    else:
-        is_xgboost = False
+    try:
+        if consider_xgboost:
+            from xgboost.sklearn import XGBModel
+
+            is_xgboost = isinstance(base_estimator, XGBModel)
+    except ImportError:
+        pass
 
     logger.info(
         f"can_partial_fit: {can_partial_fit}, can_warm_start: {can_warm_start}, is_xgboost: {is_xgboost}"

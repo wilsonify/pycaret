@@ -1,5 +1,5 @@
 shap
-tune-sklearn>=0.1.0
+tune-sklearn>=0.2.1
 ray[tune]>=1.0.0
 hyperopt
 optuna
@@ -8,5 +8,7 @@ psutil
 awscli
 azure-storage-blob
 google-cloud-storage
+catboost>=0.23.2
+xgboost>=1.1.0
 #hpbandster
 #ConfigSpace
