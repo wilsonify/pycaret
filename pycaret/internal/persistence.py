@@ -260,12 +260,12 @@ def save_model(model, model_name: str, prep_pipe_=None, verbose: bool = True):
 
     """
 
-    function_params_str = ", ".join([f"{k}={v}" for k, v in locals().items()])
+
 
     logger = get_logger()
 
     logger.info("Initializing save_model()")
-    logger.info(f"save_model({function_params_str})")
+
 
     from copy import deepcopy
 
@@ -294,7 +294,7 @@ def save_model(model, model_name: str, prep_pipe_=None, verbose: bool = True):
         print("Transformation Pipeline and Model Succesfully Saved")
 
     logger.info(f"{model_name} saved in current working directory")
-    logger.info(str(model_))
+
     logger.info(
         "save_model() succesfully completed......................................"
     )
