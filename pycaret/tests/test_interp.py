@@ -1,16 +1,43 @@
 import pytest
-from scipy.interpolate import KroghInterpolator
 import numpy as np
 import pandas as pd
+from sklearn import impute
 
 from sklearn.base import TransformerMixin
-from scipy.interpolate import KroghInterpolator, Akima1DInterpolator
+from scipy.interpolate import KroghInterpolator, Akima1DInterpolator, BarycentricInterpolator
+
+from sklearn.experimental import enable_iterative_imputer
+
+assert 'DataFrame' in dir(pd)
+assert len(dir(enable_iterative_imputer))
+assert 'IterativeImputer' in dir(impute)
+from sklearn.impute import IterativeImputer
 
 
 def minmaxscale(x):
     x2 = x + np.abs(np.min(x))
     x2 /= np.max(x2)
     return x2
+
+
+class BarycentricImputer(TransformerMixin):
+    def fit(self, df2, basis, target):
+        self.basis = basis
+        if isinstance(target, str):
+            target = [target]
+        self.target = target
+        self.aki = {}
+        for col in self.target:
+            df2sorted = df2.sort_values(basis).dropna(subset=[basis, col])
+            self.aki[col] = BarycentricInterpolator(
+                xi=df2sorted[basis].values,
+                yi=df2sorted[col].values
+            )
+
+    def transform(self, df2):
+        for col in self.target:
+            df2[f'{col}_bary'] = self.aki[col](df2[self.basis].values)
+        return df2
 
 
 class AkimaImputer(TransformerMixin):
@@ -29,7 +56,7 @@ class AkimaImputer(TransformerMixin):
 
     def transform(self, df2):
         for col in self.target:
-            df2[f'{col}_interp'] = self.aki[col](df2[self.basis].values)
+            df2[f'{col}_akima'] = self.aki[col](df2[self.basis].values)
         return df2
 
 
@@ -49,7 +76,7 @@ class KroghImputer(TransformerMixin):
 
     def transform(self, df2):
         for col in self.target:
-            df2[f'{col}_interp'] = self.ki[col](df2[self.basis].values)
+            df2[f'{col}_krogh'] = self.ki[col](df2[self.basis].values)
         return df2
 
 
@@ -80,3 +107,18 @@ def test_AkimaImputer(di_df):
     akit.fit(di_df, basis='di', target=['di2'])
     result = akit.transform(di_df)
     assert result.shape == (20, 6)
+
+
+def test_BarycentricImputer(di_df):
+    byit = BarycentricImputer()
+    byit.fit(di_df, basis='di', target=['di2'])
+    result = byit.transform(di_df)
+    assert result.shape == (20, 6)
+
+
+def test_IterativeImputer(di_df):
+    imputer = IterativeImputer()
+    imputer.fit(di_df[['di', 'di2']])
+    result = di_df.copy()
+    result['di2'] = imputer.transform(di_df[['di', 'di2']])[:, 1]
+    assert result.shape == (20, 5)
