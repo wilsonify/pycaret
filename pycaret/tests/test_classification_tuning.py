@@ -31,12 +31,29 @@ def test():
     models.append(pycaret.classification.stack_models(models[:3]))
     models.append(pycaret.classification.ensemble_model(models[0]))
 
+    import numpy as np
+
+    def _logloss(y_true, y_pred):
+        y_pred = y_pred.clip(1e-15, 1 - 1e-15)
+        return -np.mean(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred))
+
+    pycaret.classification.add_metric(
+        id='logloss',
+        name='Log Loss',
+        score_func=_logloss,
+        target="pred_proba",
+        greater_is_better=False,
+        multiclass=False,
+    )
+
     for model in models:
         print(f"Testing model {model}")
+
         pycaret.classification.tune_model(
             model,
             fold=2,
             n_iter=2,
+            optimize='Log Loss',
             search_library="scikit-learn",
             search_algorithm="random",
             early_stopping=False,
@@ -89,14 +106,7 @@ def test():
             search_algorithm="hyperopt",
             early_stopping="asha",
         )
-        pycaret.classification.tune_model(
-            model,
-            fold=2,
-            n_iter=2,
-            search_library="tune-sklearn",
-            search_algorithm="bayesian",
-            early_stopping="asha",
-        )
+        # pycaret.classification.tune_model(model, fold=2, n_iter=2, search_library="tune-sklearn", search_algorithm="bayesian", early_stopping="asha")
         if can_early_stop(model, True, True, True, {}):
             pycaret.classification.tune_model(
                 model,
