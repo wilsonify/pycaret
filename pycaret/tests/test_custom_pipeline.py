@@ -19,6 +19,7 @@ def test():
     clf1 = pycaret.classification.setup(
         data,
         target="Purchase",
+        imputation_type='iterative',
         log_experiment=True,
         silent=True,
         html=False,
@@ -54,6 +55,7 @@ def test():
     clf1 = pycaret.classification.setup(
         data,
         target="Purchase",
+        imputation_type='iterative',
         log_experiment=True,
         silent=True,
         html=False,
@@ -67,7 +69,6 @@ def test():
     # finalize model
     final_best = pycaret.classification.finalize_model(model, model_only=False)
     assert isinstance(final_best, sklearn.pipeline.Pipeline)
-    print(final_best)
     assert isinstance(final_best.named_steps["CUSTOM_PCA"], sklearn.decomposition.PCA)
 
     final_best.predict(data.drop("Purchase", axis=1))
