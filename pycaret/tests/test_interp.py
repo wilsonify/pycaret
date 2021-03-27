@@ -1,11 +1,9 @@
-import pytest
 import numpy as np
 import pandas as pd
-from sklearn import impute
-
-from sklearn.base import TransformerMixin
+import pytest
 from scipy.interpolate import KroghInterpolator, Akima1DInterpolator, BarycentricInterpolator
-
+from sklearn import impute
+from sklearn.base import TransformerMixin
 from sklearn.experimental import enable_iterative_imputer
 
 assert 'DataFrame' in dir(pd)
@@ -61,6 +59,12 @@ class AkimaImputer(TransformerMixin):
 
 
 class KroghImputer(TransformerMixin):
+    def __init__(self):
+        super().__init__()
+        self.basis = None
+        self.target = None
+        self.ki = None
+
     def fit(self, df2, basis, target):
         self.basis = basis
         if isinstance(target, str):
@@ -82,8 +86,6 @@ class KroghImputer(TransformerMixin):
 
 @pytest.fixture(name="di_df")
 def di_fixture():
-    import numpy as np
-    import pandas as pd
     from scipy.interpolate import Rbf
     x, y, z, d = np.random.rand(4, 50)
     rbfi = Rbf(x, y, z, d, function='gaussian')  # radial basis function interpolator instance
@@ -95,28 +97,68 @@ def di_fixture():
     return df2
 
 
-def test_KroghImputer(di_df):
+def test_krogh_imputer(di_df):
+    """
+    test for KroghImputer
+    Parameters
+    ----------
+    di_df
+
+    Returns
+    -------
+
+    """
     kit = KroghImputer()
     kit.fit(di_df, basis='di', target=['di2'])
     result = kit.transform(di_df)
     assert result.shape == (20, 6)
 
 
-def test_AkimaImputer(di_df):
+def test_akima_imputer(di_df):
+    """
+    test for AkimaImputer
+    Parameters
+    ----------
+    di_df
+
+    Returns
+    -------
+
+    """
     akit = AkimaImputer()
     akit.fit(di_df, basis='di', target=['di2'])
     result = akit.transform(di_df)
     assert result.shape == (20, 6)
 
 
-def test_BarycentricImputer(di_df):
+def test_barycentric_imputer(di_df):
+    """
+    test for BarycentricImputer
+    Parameters
+    ----------
+    di_df
+
+    Returns
+    -------
+
+    """
     byit = BarycentricImputer()
     byit.fit(di_df, basis='di', target=['di2'])
     result = byit.transform(di_df)
     assert result.shape == (20, 6)
 
 
-def test_IterativeImputer(di_df):
+def test_iterative_imputer(di_df):
+    """
+    test for IterativeImputer
+    Parameters
+    ----------
+    di_df
+
+    Returns
+    -------
+
+    """
     imputer = IterativeImputer()
     imputer.fit(di_df[['di', 'di2']])
     result = di_df.copy()
