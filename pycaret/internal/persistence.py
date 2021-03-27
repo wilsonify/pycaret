@@ -10,9 +10,8 @@ import gc
 
 
 def deploy_model(
-    model, model_name: str, authentication: dict, platform: str = "aws", prep_pipe_=None
+        model, model_name: str, authentication: dict, platform: str = "aws", prep_pipe_=None
 ):
-
     """
     (In Preview)
 
@@ -234,7 +233,6 @@ def deploy_model(
 
 
 def save_model(model, model_name: str, prep_pipe_=None, verbose: bool = True):
-
     """
     This generic function saves the transformation pipeline and trained model object 
     into the current active directory as a pickle file for later use. 
@@ -259,8 +257,6 @@ def save_model(model, model_name: str, prep_pipe_=None, verbose: bool = True):
         Tuple of the model object and the filename it was saved under.
 
     """
-
-
 
     logger = get_logger()
 
@@ -303,12 +299,11 @@ def save_model(model, model_name: str, prep_pipe_=None, verbose: bool = True):
 
 
 def load_model(
-    model_name,
-    platform: Optional[str] = None,
-    authentication: Optional[Dict[str, str]] = None,
-    verbose: bool = True,
+        model_name,
+        platform: Optional[str] = None,
+        authentication: Optional[Dict[str, str]] = None,
+        verbose: bool = True,
 ):
-
     """
     This generic function loads a previously saved transformation pipeline and model 
     from the current active directory into the current python environment. 
@@ -385,7 +380,7 @@ def load_model(
         if index == -1:
             s3.Bucket(bucketname).download_file(filename, filename)
         else:
-            path, key = filename[:index+1], filename[index+1:]
+            path, key = filename[:index + 1], filename[index + 1:]
             if not os.path.exists(path):
                 os.makedirs(path)
             s3.Bucket(bucketname).download_file(key, filename)
@@ -468,12 +463,11 @@ def _create_bucket_gcp(project_name: str, bucket_name: str):
 
 
 def _upload_blob_gcp(
-    project_name: str,
-    bucket_name: str,
-    source_file_name: str,
-    destination_blob_name: str,
+        project_name: str,
+        bucket_name: str,
+        source_file_name: str,
+        destination_blob_name: str,
 ):
-
     """
     Upload blob to GCP storage bucket
 
@@ -520,10 +514,10 @@ def _upload_blob_gcp(
 
 
 def _download_blob_gcp(
-    project_name: str,
-    bucket_name: str,
-    source_blob_name: str,
-    destination_file_name: str,
+        project_name: str,
+        bucket_name: str,
+        source_blob_name: str,
+        destination_file_name: str,
 ):
     """
     Download a blob from GCP storage bucket
@@ -606,7 +600,7 @@ def _create_container_azure(container_name: str):
 
 
 def _upload_blob_azure(
-    container_name: str, source_file_name: str, destination_blob_name: str
+        container_name: str, source_file_name: str, destination_blob_name: str
 ):
     """
     Upload blob to Azure storage  container
@@ -648,7 +642,7 @@ def _upload_blob_azure(
 
 
 def _download_blob_azure(
-    container_name: str, source_blob_name: str, destination_file_name: str
+        container_name: str, source_blob_name: str, destination_file_name: str
 ):
     """
     Download blob from Azure storage  container
