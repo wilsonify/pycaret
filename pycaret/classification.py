@@ -1433,7 +1433,7 @@ def plot_model(
     groups: Optional[Union[str, Any]] = None,
     use_train_data: bool = False,
     verbose: bool = True,
-    display_format: Optional[str] = None
+    display_format: Optional[str] = None,
 ) -> str:
 
     """
@@ -1546,7 +1546,7 @@ def plot_model(
         verbose=verbose,
         use_train_data=use_train_data,
         system=True,
-        display_format=display_format
+        display_format=display_format,
     )
 
 
@@ -1625,6 +1625,7 @@ def interpret_model(
     feature: Optional[str] = None,
     observation: Optional[int] = None,
     use_train_data: bool = False,
+    X_new_sample: Optional[pd.DataFrame] = None,
     save: bool = False,
     **kwargs,
 ):
@@ -1668,6 +1669,12 @@ def interpret_model(
         of test data.
 
 
+    X_new_sample: pd.DataFrame, default = None
+        Row from an out-of-sample dataframe (neither train nor test data) to be plotted.
+        The sample must have the same columns as the raw input data, and it is transformed
+        by the preprocessing pipeline automatically before plotting.
+
+
     save: bool, default = False
         When set to True, Plot is saved as a 'png' file in current working directory.
 
@@ -1687,6 +1694,7 @@ def interpret_model(
         feature=feature,
         observation=observation,
         use_train_data=use_train_data,
+        X_new_sample=X_new_sample,
         save=save,
         **kwargs,
     )
@@ -2065,7 +2073,9 @@ def deploy_model(
     )
 
 
-def save_model(model, model_name: str, model_only: bool = False, verbose: bool = True):
+def save_model(
+    model, model_name: str, model_only: bool = False, verbose: bool = True, **kwargs
+):
 
     """
     This function saves the transformation pipeline and trained model object 
@@ -2098,13 +2108,21 @@ def save_model(model, model_name: str, model_only: bool = False, verbose: bool =
         Success message is not printed when verbose is set to False.
 
 
+    **kwargs: 
+        Additional keyword arguments to pass to joblib.dump().
+
+
     Returns:
         Tuple of the model object and the filename.
 
     """
 
     return pycaret.internal.tabular.save_model(
-        model=model, model_name=model_name, model_only=model_only, verbose=verbose
+        model=model,
+        model_name=model_name,
+        model_only=model_only,
+        verbose=verbose,
+        **kwargs,
     )
 
 
