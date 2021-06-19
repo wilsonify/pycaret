@@ -85,88 +85,89 @@ def _is_unsupervised(ml_usecase: MLUsecase) -> bool:
 
 
 def setup(
-        data: pd.DataFrame,
-        target: str,
-        ml_usecase: str,
-        available_plots: dict,
-        train_size: float = 0.7,
-        test_data: Optional[pd.DataFrame] = None,
-        preprocess: bool = True,
-        imputation_type: str = "simple",
-        iterative_imputation_iters: int = 5,
-        categorical_features: Optional[List[str]] = None,
-        categorical_imputation: str = "mode",
-        categorical_iterative_imputer: Union[str, Any] = "lightgbm",
-        ordinal_features: Optional[Dict[str, list]] = None,
-        high_cardinality_features: Optional[List[str]] = None,
-        high_cardinality_method: str = "frequency",
-        numeric_features: Optional[List[str]] = None,
-        numeric_imputation: str = "mean",  # method 'zero' added in pycaret==2.1
-        numeric_iterative_imputer: Union[str, Any] = "lightgbm",
-        date_features: Optional[List[str]] = None,
-        ignore_features: Optional[List[str]] = None,
-        normalize: bool = False,
-        normalize_method: str = "zscore",
-        transformation: bool = False,
-        transformation_method: str = "yeo-johnson",
-        handle_unknown_categorical: bool = True,
-        unknown_categorical_method: str = "least_frequent",
-        pca: bool = False,
-        pca_method: str = "linear",
-        pca_components: Optional[float] = None,
-        ignore_low_variance: bool = False,
-        combine_rare_levels: bool = False,
-        rare_level_threshold: float = 0.10,
-        bin_numeric_features: Optional[List[str]] = None,
-        remove_outliers: bool = False,
-        outliers_threshold: float = 0.05,
-        remove_multicollinearity: bool = False,
-        multicollinearity_threshold: float = 0.9,
-        remove_perfect_collinearity: bool = True,
-        create_clusters: bool = False,
-        cluster_iter: int = 20,
-        polynomial_features: bool = False,
-        polynomial_degree: int = 2,
-        trigonometry_features: bool = False,
-        polynomial_threshold: float = 0.1,
-        group_features: Optional[List[str]] = None,
-        group_names: Optional[List[str]] = None,
-        feature_selection: bool = False,
-        feature_selection_threshold: float = 0.8,
-        feature_selection_method: str = "classic",  # boruta algorithm added in pycaret==2.1
-        feature_interaction: bool = False,
-        feature_ratio: bool = False,
-        interaction_threshold: float = 0.01,
-        # classification specific
-        fix_imbalance: bool = False,
-        fix_imbalance_method: Optional[Any] = None,
-        # regression specific
-        transform_target=False,
-        transform_target_method="box-cox",
-        data_split_shuffle: bool = True,
-        data_split_stratify: Union[bool, List[str]] = False,  # added in pycaret==2.2
-        fold_strategy: Union[str, Any] = "kfold",  # added in pycaret==2.2
-        fold: int = 10,  # added in pycaret==2.2
-        fold_shuffle: bool = False,
-        fold_groups: Optional[Union[str, pd.DataFrame]] = None,
-        n_jobs: Optional[int] = -1,
-        use_gpu: bool = False,  # added in pycaret==2.1
-        custom_pipeline: Union[
-            Any, Tuple[str, Any], List[Any], List[Tuple[str, Any]]
-        ] = None,
-        html: bool = True,
-        session_id: Optional[int] = None,
-        log_experiment: bool = False,
-        experiment_name: Optional[str] = None,
-        log_plots: Union[bool, list] = False,
-        log_profile: bool = False,
-        log_data: bool = False,
-        silent: bool = False,
-        verbose: bool = True,
-        profile: bool = False,
-        profile_kwargs: Dict[str, Any] = None,
-        display: Optional[Display] = None,
+    data: pd.DataFrame,
+    target: str,
+    ml_usecase: str,
+    available_plots: dict,
+    train_size: float = 0.7,
+    test_data: Optional[pd.DataFrame] = None,
+    preprocess: bool = True,
+    imputation_type: str = "simple",
+    iterative_imputation_iters: int = 5,
+    categorical_features: Optional[List[str]] = None,
+    categorical_imputation: str = "mode",
+    categorical_iterative_imputer: Union[str, Any] = "lightgbm",
+    ordinal_features: Optional[Dict[str, list]] = None,
+    high_cardinality_features: Optional[List[str]] = None,
+    high_cardinality_method: str = "frequency",
+    numeric_features: Optional[List[str]] = None,
+    numeric_imputation: str = "mean",  # method 'zero' added in pycaret==2.1
+    numeric_iterative_imputer: Union[str, Any] = "lightgbm",
+    date_features: Optional[List[str]] = None,
+    ignore_features: Optional[List[str]] = None,
+    normalize: bool = False,
+    normalize_method: str = "zscore",
+    transformation: bool = False,
+    transformation_method: str = "yeo-johnson",
+    handle_unknown_categorical: bool = True,
+    unknown_categorical_method: str = "least_frequent",
+    pca: bool = False,
+    pca_method: str = "linear",
+    pca_components: Optional[float] = None,
+    ignore_low_variance: bool = False,
+    combine_rare_levels: bool = False,
+    rare_level_threshold: float = 0.10,
+    bin_numeric_features: Optional[List[str]] = None,
+    remove_outliers: bool = False,
+    outliers_threshold: float = 0.05,
+    remove_multicollinearity: bool = False,
+    multicollinearity_threshold: float = 0.9,
+    remove_perfect_collinearity: bool = True,
+    create_clusters: bool = False,
+    cluster_iter: int = 20,
+    polynomial_features: bool = False,
+    polynomial_degree: int = 2,
+    trigonometry_features: bool = False,
+    polynomial_threshold: float = 0.1,
+    group_features: Optional[List[str]] = None,
+    group_names: Optional[List[str]] = None,
+    feature_selection: bool = False,
+    feature_selection_threshold: float = 0.8,
+    feature_selection_method: str = "classic",  # boruta algorithm added in pycaret==2.1
+    feature_interaction: bool = False,
+    feature_ratio: bool = False,
+    interaction_threshold: float = 0.01,
+    # classification specific
+    fix_imbalance: bool = False,
+    fix_imbalance_method: Optional[Any] = None,
+    # regression specific
+    transform_target=False,
+    transform_target_method="box-cox",
+    data_split_shuffle: bool = True,
+    data_split_stratify: Union[bool, List[str]] = False,  # added in pycaret==2.2
+    fold_strategy: Union[str, Any] = "kfold",  # added in pycaret==2.2
+    fold: int = 10,  # added in pycaret==2.2
+    fold_shuffle: bool = False,
+    fold_groups: Optional[Union[str, pd.DataFrame]] = None,
+    n_jobs: Optional[int] = -1,
+    use_gpu: bool = False,  # added in pycaret==2.1
+    custom_pipeline: Union[
+        Any, Tuple[str, Any], List[Any], List[Tuple[str, Any]]
+    ] = None,
+    html: bool = True,
+    session_id: Optional[int] = None,
+    log_experiment: bool = False,
+    experiment_name: Optional[str] = None,
+    log_plots: Union[bool, list] = False,
+    log_profile: bool = False,
+    log_data: bool = False,
+    silent: bool = False,
+    verbose: bool = True,
+    profile: bool = False,
+    profile_kwargs: Dict[str, Any] = None,
+    display: Optional[Display] = None,
 ):
+
     """
     This function initializes the environment in pycaret and creates the transformation
     pipeline to prepare the data for modeling and deployment. setup() must called before
@@ -404,8 +405,8 @@ def setup(
     # stratify
     if data_split_stratify:
         if (
-                type(data_split_stratify) is not list
-                and type(data_split_stratify) is not bool
+            type(data_split_stratify) is not list
+            and type(data_split_stratify) is not bool
         ):
             raise TypeError(
                 "data_split_stratify parameter only accepts a bool or a list of strings."
@@ -507,9 +508,9 @@ def setup(
 
     # check rare_level_threshold
     if (
-            type(rare_level_threshold) is not float
-            and rare_level_threshold < 0
-            or rare_level_threshold > 1
+        type(rare_level_threshold) is not float
+        and rare_level_threshold < 0
+        or rare_level_threshold > 1
     ):
         raise TypeError(
             "rare_level_threshold parameter must be a float between 0 and 1."
@@ -680,8 +681,8 @@ def setup(
 
     possible_fold_strategy = ["kfold", "stratifiedkfold", "groupkfold", "timeseries"]
     if not (
-            fold_strategy in possible_fold_strategy
-            or is_sklearn_cv_generator(fold_strategy)
+        fold_strategy in possible_fold_strategy
+        or is_sklearn_cv_generator(fold_strategy)
     ):
         raise TypeError(
             f"fold_strategy parameter must be either a scikit-learn compatible CV generator object or one of {', '.join(possible_fold_strategy)}."
@@ -1069,22 +1070,22 @@ def setup(
         }
 
         if not (
-                (
-                        isinstance(imputation_regressor, str)
-                        and imputation_regressor in iterative_imputer_regression_models
-                )
-                or hasattr(imputation_regressor, "predict")
+            (
+                isinstance(imputation_regressor, str)
+                and imputation_regressor in iterative_imputer_regression_models
+            )
+            or hasattr(imputation_regressor, "predict")
         ):
             raise ValueError(
                 f"numeric_iterative_imputer param must be either a scikit-learn estimator or a string - one of {', '.join(iterative_imputer_regression_models.keys())}."
             )
 
         if not (
-                (
-                        isinstance(imputation_classifier, str)
-                        and imputation_classifier in iterative_imputer_classification_models
-                )
-                or hasattr(imputation_classifier, "predict")
+            (
+                isinstance(imputation_classifier, str)
+                and imputation_classifier in iterative_imputer_classification_models
+            )
+            or hasattr(imputation_classifier, "predict")
         ):
             raise ValueError(
                 f"categorical_iterative_imputer param must be either a scikit-learn estimator or a string - one of {', '.join(iterative_imputer_classification_models.keys())}."
@@ -1532,10 +1533,10 @@ def setup(
     exp_name_log = exp_name_
 
     functions = pd.DataFrame(
-        [["session_id", seed], ]
+        [["session_id", seed],]
         + ([["Target", target]] if not _is_unsupervised(_ml_usecase) else [])
         + (
-            [["Target Type", target_type], ["Label Encoded", label_encoded], ]
+            [["Target Type", target_type], ["Label Encoded", label_encoded],]
             if _ml_usecase == MLUsecase.CLASSIFICATION
             else []
         )
@@ -1768,6 +1769,7 @@ def setup(
     logger.info(f"master_model_container: {len(master_model_container)}")
     logger.info(f"display_container: {len(display_container)}")
 
+    logger.info(str(prep_pipe))
     logger.info("setup() succesfully completed......................................")
 
     gc.collect()
@@ -1776,23 +1778,24 @@ def setup(
 
 
 def compare_models(
-        include: Optional[
-            List[Union[str, Any]]
-        ] = None,  # changed whitelist to include in pycaret==2.1
-        exclude: Optional[List[str]] = None,  # changed blacklist to exclude in pycaret==2.1
-        fold: Optional[Union[int, Any]] = None,
-        round: int = 4,
-        cross_validation: bool = True,
-        sort: str = "Accuracy",
-        n_select: int = 1,
-        budget_time: Optional[float] = None,  # added in pycaret==2.1.0
-        turbo: bool = True,
-        errors: str = "ignore",
-        fit_kwargs: Optional[dict] = None,
-        groups: Optional[Union[str, Any]] = None,
-        verbose: bool = True,
-        display: Optional[Display] = None,
+    include: Optional[
+        List[Union[str, Any]]
+    ] = None,  # changed whitelist to include in pycaret==2.1
+    exclude: Optional[List[str]] = None,  # changed blacklist to exclude in pycaret==2.1
+    fold: Optional[Union[int, Any]] = None,
+    round: int = 4,
+    cross_validation: bool = True,
+    sort: str = "Accuracy",
+    n_select: int = 1,
+    budget_time: Optional[float] = None,  # added in pycaret==2.1.0
+    turbo: bool = True,
+    errors: str = "ignore",
+    fit_kwargs: Optional[dict] = None,
+    groups: Optional[Union[str, Any]] = None,
+    verbose: bool = True,
+    display: Optional[Display] = None,
 ) -> List[Any]:
+
     """
     This function train all the models available in the model library and scores them
     using Cross Validation. The output prints a score grid with Accuracy,
@@ -2017,7 +2020,7 @@ def compare_models(
     if not display:
         progress_args = {"max": (4 * len_mod) + 4 + len_mod}
         master_display_columns = (
-                ["Model"] + [v.display_name for k, v in _all_metrics.items()] + ["TT (Sec)"]
+            ["Model"] + [v.display_name for k, v in _all_metrics.items()] + ["TT (Sec)"]
         )
         timestampStr = datetime.datetime.now().strftime("%H:%M:%S")
         monitor_rows = [
@@ -2098,8 +2101,8 @@ def compare_models(
         model_id = (
             model
             if (
-                    isinstance(model, str)
-                    and all(isinstance(m, str) for m in model_library)
+                isinstance(model, str)
+                and all(isinstance(m, str) for m in model_library)
             )
             else str(i)
         )
@@ -2115,7 +2118,7 @@ def compare_models(
         total_runtime += (runtime_start - total_runtime_start) / 60
         logger.info(f"Total runtime is {total_runtime} minutes")
         over_time_budget = (
-                budget_time and budget_time > 0 and total_runtime > budget_time
+            budget_time and budget_time > 0 and total_runtime > budget_time
         )
         if over_time_budget:
             logger.info(
@@ -2258,7 +2261,7 @@ def compare_models(
                     if x not in greater_is_worse_columns
                 ],
             )
-                .apply(
+            .apply(
                 highlight_min,
                 subset=[
                     x
@@ -2266,7 +2269,7 @@ def compare_models(
                     if x in greater_is_worse_columns
                 ],
             )
-                .applymap(highlight_cols, subset=["TT (Sec)"])
+            .applymap(highlight_cols, subset=["TT (Sec)"])
         )
     else:
         compare_models_ = pd.DataFrame().style
@@ -2358,19 +2361,20 @@ def compare_models(
 
 
 def create_model_unsupervised(
-        estimator,
-        num_clusters: int = 4,
-        fraction: float = 0.05,
-        ground_truth: Optional[str] = None,
-        round: int = 4,
-        fit_kwargs: Optional[dict] = None,
-        verbose: bool = True,
-        system: bool = True,
-        raise_num_clusters: bool = False,
-        X_data: Optional[pd.DataFrame] = None,  # added in pycaret==2.2.0
-        display: Optional[Display] = None,  # added in pycaret==2.2.0
-        **kwargs,
+    estimator,
+    num_clusters: int = 4,
+    fraction: float = 0.05,
+    ground_truth: Optional[str] = None,
+    round: int = 4,
+    fit_kwargs: Optional[dict] = None,
+    verbose: bool = True,
+    system: bool = True,
+    raise_num_clusters: bool = False,
+    X_data: Optional[pd.DataFrame] = None,  # added in pycaret==2.2.0
+    display: Optional[Display] = None,  # added in pycaret==2.2.0
+    **kwargs,
 ) -> Any:
+
     """
     This is an internal version of the create_model function.
 
@@ -2729,22 +2733,23 @@ def create_model_unsupervised(
 
 
 def create_model_supervised(
-        estimator,
-        fold: Optional[Union[int, Any]] = None,
-        round: int = 4,
-        cross_validation: bool = True,
-        predict: bool = True,
-        fit_kwargs: Optional[dict] = None,
-        groups: Optional[Union[str, Any]] = None,
-        refit: bool = True,
-        verbose: bool = True,
-        system: bool = True,
-        X_train_data: Optional[pd.DataFrame] = None,  # added in pycaret==2.2.0
-        y_train_data: Optional[pd.DataFrame] = None,  # added in pycaret==2.2.0
-        metrics=None,
-        display: Optional[Display] = None,  # added in pycaret==2.2.0
-        **kwargs,
+    estimator,
+    fold: Optional[Union[int, Any]] = None,
+    round: int = 4,
+    cross_validation: bool = True,
+    predict: bool = True,
+    fit_kwargs: Optional[dict] = None,
+    groups: Optional[Union[str, Any]] = None,
+    refit: bool = True,
+    verbose: bool = True,
+    system: bool = True,
+    X_train_data: Optional[pd.DataFrame] = None,  # added in pycaret==2.2.0
+    y_train_data: Optional[pd.DataFrame] = None,  # added in pycaret==2.2.0
+    metrics=None,
+    display: Optional[Display] = None,  # added in pycaret==2.2.0
+    **kwargs,
 ) -> Any:
+
     """
     This is an internal version of the create_model function.
 
@@ -3133,7 +3138,7 @@ def create_model_supervised(
         logger.info("Creating metrics dataframe")
 
         model_results = pd.DataFrame(score_dict)
-        model_avgs = pd.DataFrame(avgs_dict, index=["Mean", "SD"], )
+        model_avgs = pd.DataFrame(avgs_dict, index=["Mean", "SD"],)
 
         model_results = model_results.append(model_avgs)
         model_results = model_results.round(round)
@@ -3213,22 +3218,23 @@ def create_model_supervised(
 
 
 def tune_model_unsupervised(
-        model,
-        supervised_target: str,
-        supervised_type: Optional[str] = None,
-        supervised_estimator: Union[str, Any] = "lr",
-        optimize: Optional[str] = None,
-        custom_grid: Optional[List[int]] = None,
-        fold: Optional[Union[int, Any]] = None,
-        groups: Optional[Union[str, Any]] = None,
-        ground_truth: Optional[str] = None,
-        method: str = "drop",
-        fit_kwargs: Optional[dict] = None,
-        round: int = 4,
-        verbose: bool = True,
-        display: Optional[Display] = None,
-        **kwargs,
+    model,
+    supervised_target: str,
+    supervised_type: Optional[str] = None,
+    supervised_estimator: Union[str, Any] = "lr",
+    optimize: Optional[str] = None,
+    custom_grid: Optional[List[int]] = None,
+    fold: Optional[Union[int, Any]] = None,
+    groups: Optional[Union[str, Any]] = None,
+    ground_truth: Optional[str] = None,
+    method: str = "drop",
+    fit_kwargs: Optional[dict] = None,
+    round: int = 4,
+    verbose: bool = True,
+    display: Optional[Display] = None,
+    **kwargs,
 ):
+
     function_params_str = ", ".join([f"{k}={v}" for k, v in locals().items()])
 
     logger = get_logger()
@@ -3403,8 +3409,8 @@ def tune_model_unsupervised(
         unsupervised_models[k] = new_model
         unsupervised_grids[k] = (
             assign_model(new_model, verbose=False, transformation=True)
-                .reset_index(drop=True)
-                .drop(cols_to_drop, axis=1)
+            .reset_index(drop=True)
+            .drop(cols_to_drop, axis=1)
         )
         if _ml_usecase == MLUsecase.CLUSTERING:
             unsupervised_grids[k] = pd.get_dummies(
@@ -3413,7 +3419,7 @@ def tune_model_unsupervised(
         elif method == "drop":
             unsupervised_grids[k] = unsupervised_grids[k][
                 unsupervised_grids[k]["Anomaly"] == 0
-                ].drop(["Anomaly", "Anomaly_Score"], axis=1)
+            ].drop(["Anomaly", "Anomaly_Score"], axis=1)
 
     results = {}
 
@@ -3445,10 +3451,10 @@ def tune_model_unsupervised(
 
     best_model_idx = (
         results.drop(0)
-            .sort_values(
+        .sort_values(
             by=optimize.display_name, ascending=optimize in greater_is_worse_columns
         )
-            .index[0]
+        .index[0]
     )
 
     def highlight_max(s):
@@ -3570,26 +3576,27 @@ def tune_model_unsupervised(
 
 
 def tune_model_supervised(
-        estimator,
-        fold: Optional[Union[int, Any]] = None,
-        round: int = 4,
-        n_iter: int = 10,
-        custom_grid: Optional[Union[Dict[str, list], Any]] = None,
-        optimize: str = "Accuracy",
-        custom_scorer=None,  # added in pycaret==2.1 - depreciated
-        search_library: str = "scikit-learn",
-        search_algorithm: Optional[str] = None,
-        early_stopping: Any = False,
-        early_stopping_max_iters: int = 10,
-        choose_better: bool = False,
-        fit_kwargs: Optional[dict] = None,
-        groups: Optional[Union[str, Any]] = None,
-        return_tuner: bool = False,
-        verbose: bool = True,
-        tuner_verbose: Union[int, bool] = True,
-        display: Optional[Display] = None,
-        **kwargs,
+    estimator,
+    fold: Optional[Union[int, Any]] = None,
+    round: int = 4,
+    n_iter: int = 10,
+    custom_grid: Optional[Union[Dict[str, list], Any]] = None,
+    optimize: str = "Accuracy",
+    custom_scorer=None,  # added in pycaret==2.1 - depreciated
+    search_library: str = "scikit-learn",
+    search_algorithm: Optional[str] = None,
+    early_stopping: Any = False,
+    early_stopping_max_iters: int = 10,
+    choose_better: bool = False,
+    fit_kwargs: Optional[dict] = None,
+    groups: Optional[Union[str, Any]] = None,
+    return_tuner: bool = False,
+    verbose: bool = True,
+    tuner_verbose: Union[int, bool] = True,
+    display: Optional[Display] = None,
+    **kwargs,
 ) -> Any:
+
     """
     This function tunes the hyperparameters of a model and scores it using Cross Validation.
     The output prints a score grid that shows Accuracy, AUC, Recall
@@ -3805,8 +3812,8 @@ def tune_model_supervised(
     # checking early_stopping parameter
     possible_early_stopping = ["asha", "Hyperband", "Median"]
     if (
-            isinstance(early_stopping, str)
-            and early_stopping not in possible_early_stopping
+        isinstance(early_stopping, str)
+        and early_stopping not in possible_early_stopping
     ):
         raise TypeError(
             f"early_stopping parameter must be one of {', '.join(possible_early_stopping)}"
@@ -4124,11 +4131,11 @@ def tune_model_supervised(
             raise TypeError(f"custom_grid must be a dict, got {type(custom_grid)}.")
         param_grid = custom_grid
         if not (
-                search_library == "scikit-learn"
-                or (
-                        search_library == "tune-sklearn"
-                        and (search_algorithm == "grid" or search_algorithm == "random")
-                )
+            search_library == "scikit-learn"
+            or (
+                search_library == "tune-sklearn"
+                and (search_algorithm == "grid" or search_algorithm == "random")
+            )
         ):
             param_grid = {
                 k: CategoricalDistribution(v) if not isinstance(v, Distribution) else v
@@ -4139,8 +4146,8 @@ def tune_model_supervised(
                 f"For the combination of search_library {search_library} and search_algorithm {search_algorithm}, PyCaret Distribution objects are not supported. Pass a list or other object supported by the search library (in most cases, an object with a 'rvs' function)."
             )
     elif search_library == "scikit-learn" or (
-            search_library == "tune-sklearn"
-            and (search_algorithm == "grid" or search_algorithm == "random")
+        search_library == "tune-sklearn"
+        and (search_algorithm == "grid" or search_algorithm == "random")
     ):
         param_grid = estimator_definition.tune_grid
         if isinstance(base_estimator, (VotingClassifier, VotingRegressor)):
@@ -4268,7 +4275,7 @@ def tune_model_supervised(
                 param_distributions=param_grid,
                 cv=fold,
                 enable_pruning=early_stopping
-                               and can_early_stop(pipeline_with_model, True, False, False, param_grid),
+                and can_early_stop(pipeline_with_model, True, False, False, param_grid),
                 max_iter=early_stopping_max_iters,
                 n_jobs=n_jobs,
                 n_trials=n_iter,
@@ -4301,7 +4308,7 @@ def tune_model_supervised(
                 )
 
             elif early_stopping and can_early_stop(
-                    pipeline_with_model, False, True, False, param_grid
+                pipeline_with_model, False, True, False, param_grid
             ):
                 if "actual_estimator__n_estimators" in param_grid:
                     if custom_grid is None:
@@ -4326,11 +4333,11 @@ def tune_model_supervised(
             from tune_sklearn import TuneSearchCV, TuneGridSearchCV
 
             with (
-                    true_warm_start(pipeline_with_model) if do_early_stop else nullcontext()
+                true_warm_start(pipeline_with_model) if do_early_stop else nullcontext()
             ), set_n_jobs(pipeline_with_model, 1), (
-                    patch.dict("os.environ", {"TUNE_GLOBAL_CHECKPOINT_S": "1000000"})
-                    if "TUNE_GLOBAL_CHECKPOINT_S" not in os.environ
-                    else nullcontext()
+                patch.dict("os.environ", {"TUNE_GLOBAL_CHECKPOINT_S": "1000000"})
+                if "TUNE_GLOBAL_CHECKPOINT_S" not in os.environ
+                else nullcontext()
             ):
                 if search_algorithm == "grid":
 
@@ -4461,8 +4468,8 @@ def tune_model_supervised(
         if search_library == "scikit-learn":
             # monkey patching to fix overflows on Windows
             with patch(
-                    "sklearn.model_selection._search.sample_without_replacement",
-                    pycaret.internal.patches.sklearn._mp_sample_without_replacement,
+                "sklearn.model_selection._search.sample_without_replacement",
+                pycaret.internal.patches.sklearn._mp_sample_without_replacement,
             ), patch(
                 "sklearn.model_selection._search.ParameterGrid.__getitem__",
                 pycaret.internal.patches.sklearn._mp_ParameterGrid_getitem,
@@ -4568,17 +4575,17 @@ def tune_model_supervised(
 
 
 def ensemble_model(
-        estimator,
-        method: str = "Bagging",
-        fold: Optional[Union[int, Any]] = None,
-        n_estimators: int = 10,
-        round: int = 4,
-        choose_better: bool = False,
-        optimize: str = "Accuracy",
-        fit_kwargs: Optional[dict] = None,
-        groups: Optional[Union[str, Any]] = None,
-        verbose: bool = True,
-        display: Optional[Display] = None,  # added in pycaret==2.2.0
+    estimator,
+    method: str = "Bagging",
+    fold: Optional[Union[int, Any]] = None,
+    n_estimators: int = 10,
+    round: int = 4,
+    choose_better: bool = False,
+    optimize: str = "Accuracy",
+    fit_kwargs: Optional[dict] = None,
+    groups: Optional[Union[str, Any]] = None,
+    verbose: bool = True,
+    display: Optional[Display] = None,  # added in pycaret==2.2.0
 ) -> Any:
     """
     This function ensembles the trained base estimator using the method defined in
@@ -4919,18 +4926,19 @@ def ensemble_model(
 
 
 def blend_models(
-        estimator_list: list,
-        fold: Optional[Union[int, Any]] = None,
-        round: int = 4,
-        choose_better: bool = False,
-        optimize: str = "Accuracy",
-        method: str = "auto",
-        weights: Optional[List[float]] = None,  # added in pycaret==2.2.0
-        fit_kwargs: Optional[dict] = None,
-        groups: Optional[Union[str, Any]] = None,
-        verbose: bool = True,
-        display: Optional[Display] = None,  # added in pycaret==2.2.0
+    estimator_list: list,
+    fold: Optional[Union[int, Any]] = None,
+    round: int = 4,
+    choose_better: bool = False,
+    optimize: str = "Accuracy",
+    method: str = "auto",
+    weights: Optional[List[float]] = None,  # added in pycaret==2.2.0
+    fit_kwargs: Optional[dict] = None,
+    groups: Optional[Union[str, Any]] = None,
+    verbose: bool = True,
+    display: Optional[Display] = None,  # added in pycaret==2.2.0
 ) -> Any:
+
     """
     This function creates a Soft Voting / Majority Rule classifier for all the
     estimators in the model library (excluding the few when turbo is True) or
@@ -5264,19 +5272,20 @@ def blend_models(
 
 
 def stack_models(
-        estimator_list: list,
-        meta_model=None,
-        fold: Optional[Union[int, Any]] = None,
-        round: int = 4,
-        method: str = "auto",
-        restack: bool = True,
-        choose_better: bool = False,
-        optimize: str = "Accuracy",
-        fit_kwargs: Optional[dict] = None,
-        groups: Optional[Union[str, Any]] = None,
-        verbose: bool = True,
-        display: Optional[Display] = None,
+    estimator_list: list,
+    meta_model=None,
+    fold: Optional[Union[int, Any]] = None,
+    round: int = 4,
+    method: str = "auto",
+    restack: bool = True,
+    choose_better: bool = False,
+    optimize: str = "Accuracy",
+    fit_kwargs: Optional[dict] = None,
+    groups: Optional[Union[str, Any]] = None,
+    verbose: bool = True,
+    display: Optional[Display] = None,
 ) -> Any:
+
     """
     This function trains a meta model and scores it using Cross Validation.
     The predictions from the base level models as passed in the estimator_list param
@@ -5613,22 +5622,23 @@ def stack_models(
 
 
 def plot_model(
-        estimator,
-        plot: str = "auc",
-        scale: float = 1,  # added in pycaret==2.1.0
-        save: bool = False,
-        fold: Optional[Union[int, Any]] = None,
-        fit_kwargs: Optional[dict] = None,
-        groups: Optional[Union[str, Any]] = None,
-        feature_name: Optional[str] = None,
-        label: bool = False,
-        use_train_data: bool = False,
-        verbose: bool = True,
-        system: bool = True,
-        display: Optional[Display] = None,  # added in pycaret==2.2.0
-        display_format: Optional[str] = None,
-        is_in_evaluate: bool = False,
+    estimator,
+    plot: str = "auc",
+    scale: float = 1,  # added in pycaret==2.1.0
+    save: bool = False,
+    fold: Optional[Union[int, Any]] = None,
+    fit_kwargs: Optional[dict] = None,
+    groups: Optional[Union[str, Any]] = None,
+    feature_name: Optional[str] = None,
+    label: bool = False,
+    use_train_data: bool = False,
+    verbose: bool = True,
+    system: bool = True,
+    display: Optional[Display] = None,  # added in pycaret==2.2.0
+    display_format: Optional[str] = None,
+    is_in_evaluate: bool = False,
 ) -> str:
+
     """
     This function takes a trained model object and returns a plot based on the
     test / hold-out set. The process may require the model to be re-trained in
@@ -5800,7 +5810,7 @@ def plot_model(
 
     # checking for feature plot
     if not (
-            hasattr(estimator, "coef_") or hasattr(estimator, "feature_importances_")
+        hasattr(estimator, "coef_") or hasattr(estimator, "feature_importances_")
     ) and (plot == "feature" or plot == "feature_all" or plot == "rfe"):
         raise TypeError(
             "Feature Importance and RFE plots not available for estimators that doesnt support coef_ or feature_importances_ attribute."
@@ -5914,8 +5924,8 @@ def plot_model(
     model_name = _get_model_name(model)
     plot_filename = f"{plot_name}.png"
     with patch(
-            "yellowbrick.utils.types.is_estimator",
-            pycaret.internal.patches.yellowbrick.is_estimator,
+        "yellowbrick.utils.types.is_estimator",
+        pycaret.internal.patches.yellowbrick.is_estimator,
     ), patch(
         "yellowbrick.utils.helpers.is_estimator",
         pycaret.internal.patches.yellowbrick.is_estimator,
@@ -6333,7 +6343,7 @@ def plot_model(
                 hover_data=d.columns,
             )
 
-            fig.update_layout(height=600 * scale, )
+            fig.update_layout(height=600 * scale,)
 
             plot_filename = f"{plot_name}.html"
 
@@ -6690,7 +6700,7 @@ def plot_model(
             display.move_progress()
             logger.info("Generating predictions / predict_proba on X_test")
             with fit_if_not_fitted(
-                    pipeline_with_model, data_X, data_y, groups=groups, **fit_kwargs
+                pipeline_with_model, data_X, data_y, groups=groups, **fit_kwargs
             ) as fitted_pipeline_with_model:
                 y_test__ = fitted_pipeline_with_model.predict(X_test)
                 predict_proba__ = fitted_pipeline_with_model.predict_proba(X_test)
@@ -6715,7 +6725,7 @@ def plot_model(
             display.move_progress()
             logger.info("Generating predictions / predict_proba on X_test")
             with fit_if_not_fitted(
-                    pipeline_with_model, data_X, data_y, groups=groups, **fit_kwargs
+                pipeline_with_model, data_X, data_y, groups=groups, **fit_kwargs
             ) as fitted_pipeline_with_model:
                 y_test__ = fitted_pipeline_with_model.predict(X_test)
                 predict_proba__ = fitted_pipeline_with_model.predict_proba(X_test)
@@ -6774,12 +6784,12 @@ def plot_model(
                 is_stacked_model = True
 
             if (
-                    "base_estimator" in tree_estimator.get_params()
-                    and "n_estimators" in tree_estimator.base_estimator.get_params()
+                "base_estimator" in tree_estimator.get_params()
+                and "n_estimators" in tree_estimator.base_estimator.get_params()
             ):
                 n_estimators = (
-                        tree_estimator.get_params()["n_estimators"]
-                        * tree_estimator.base_estimator.get_params()["n_estimators"]
+                    tree_estimator.get_params()["n_estimators"]
+                    * tree_estimator.base_estimator.get_params()["n_estimators"]
                 )
                 is_ensemble_of_forests = True
             elif "n_estimators" in tree_estimator.get_params():
@@ -6807,7 +6817,7 @@ def plot_model(
             display.move_progress()
             logger.info("Plotting decision trees")
             with fit_if_not_fitted(
-                    pipeline_with_model, data_X, data_y, groups=groups, **fit_kwargs
+                pipeline_with_model, data_X, data_y, groups=groups, **fit_kwargs
             ) as fitted_pipeline_with_model:
                 trees = []
                 feature_names = list(data_X.columns)
@@ -6889,7 +6899,7 @@ def plot_model(
             display.move_progress()
             logger.info("Scoring test/hold-out set")
             with fit_if_not_fitted(
-                    pipeline_with_model, data_X, data_y, groups=groups, **fit_kwargs
+                pipeline_with_model, data_X, data_y, groups=groups, **fit_kwargs
             ) as fitted_pipeline_with_model:
                 prob_pos = fitted_pipeline_with_model.predict_proba(test_X)[:, 1]
             prob_pos = (prob_pos - prob_pos.min()) / (prob_pos.max() - prob_pos.min())
@@ -7159,8 +7169,8 @@ def plot_model(
             coef_df = pd.DataFrame({"Variable": data_X.columns, "Value": variables})
             sorted_df = (
                 coef_df.sort_values(by="Value", ascending=False)
-                    .head(n)
-                    .sort_values(by="Value")
+                .head(n)
+                .sort_values(by="Value")
             )
             my_range = range(1, len(sorted_df.index) + 1)
             display.move_progress()
@@ -7219,13 +7229,14 @@ def plot_model(
 
 
 def evaluate_model(
-        estimator,
-        fold: Optional[Union[int, Any]] = None,
-        fit_kwargs: Optional[dict] = None,
-        feature_name: Optional[str] = None,
-        groups: Optional[Union[str, Any]] = None,
-        use_train_data: bool = False,
+    estimator,
+    fold: Optional[Union[int, Any]] = None,
+    fit_kwargs: Optional[dict] = None,
+    feature_name: Optional[str] = None,
+    groups: Optional[Union[str, Any]] = None,
+    use_train_data: bool = False,
 ):
+
     """
     This function displays a user interface for all of the available plots for
     a given estimator. It internally uses the plot_model() function.
@@ -7313,14 +7324,16 @@ def evaluate_model(
 
 
 def interpret_model(
-        estimator,
-        plot: str = "summary",
-        feature: Optional[str] = None,
-        observation: Optional[int] = None,
-        use_train_data: bool = False,
-        save: bool = False,
-        **kwargs,  # added in pycaret==2.1
+    estimator,
+    plot: str = "summary",
+    feature: Optional[str] = None,
+    observation: Optional[int] = None,
+    use_train_data: Optional[bool] = False,
+    X_new_sample: Optional[pd.DataFrame] = None,
+    save: bool = False,
+    **kwargs,  # added in pycaret==2.1
 ):
+
     """
     This function takes a trained model object and returns an interpretation plot
     based on the test / hold-out set. It only supports tree based algorithms.
@@ -7360,6 +7373,11 @@ def interpret_model(
         with the option to select the feature on x and y axes through drop down
         interactivity. For analysis at the sample level, an observation parameter must
         be passed with the index value of the observation in test / hold-out set.
+
+    X_new_sample: pd.DataFrame, default = None
+        Row from an out-of-sample dataframe (neither train nor test data) to be plotted.
+        The sample must have the same columns as the raw input data, and it is transformed
+        by the preprocessing pipeline automatically before plotting.
 
     save: bool, default = False
         When set to True, Plot is saved as a 'png' file in current working directory.
@@ -7422,13 +7440,19 @@ def interpret_model(
             "type parameter only accepts 'summary', 'correlation' or 'reason'."
         )
 
+    if X_new_sample is not None and (observation is not None or use_train_data):
+        raise ValueError(
+            "Specifying 'X_new_sample' and ('observation' or 'use_train_data') is ambiguous."
+        )
     """
     Error Checking Ends here
 
     """
-
-    # Storing X_train and y_train in data_X and data_y parameter
-    test_X = X_train if use_train_data else X_test
+    if X_new_sample is not None:
+        test_X = prep_pipe.transform(X_new_sample)
+    else:
+        # Storing X_train and y_train in data_X and data_y parameter
+        test_X = X_train if use_train_data else X_test
 
     np.random.seed(seed)
 
@@ -7586,15 +7610,16 @@ def interpret_model(
 
 
 def calibrate_model(
-        estimator,
-        method: str = "sigmoid",
-        fold: Optional[Union[int, Any]] = None,
-        round: int = 4,
-        fit_kwargs: Optional[dict] = None,
-        groups: Optional[Union[str, Any]] = None,
-        verbose: bool = True,
-        display: Optional[Display] = None,  # added in pycaret==2.2.0
+    estimator,
+    method: str = "sigmoid",
+    fold: Optional[Union[int, Any]] = None,
+    round: int = 4,
+    fit_kwargs: Optional[dict] = None,
+    groups: Optional[Union[str, Any]] = None,
+    verbose: bool = True,
+    display: Optional[Display] = None,  # added in pycaret==2.2.0
 ) -> Any:
+
     """
     This function takes the input of trained estimator and performs probability
     calibration with sigmoid or isotonic regression. The output prints a score
@@ -7828,12 +7853,13 @@ def calibrate_model(
 
 
 def optimize_threshold(
-        estimator,
-        true_positive: int = 0,
-        true_negative: int = 0,
-        false_positive: int = 0,
-        false_negative: int = 0,
+    estimator,
+    true_positive: int = 0,
+    true_negative: int = 0,
+    false_positive: int = 0,
+    false_negative: int = 0,
 ):
+
     """
     This function optimizes probability threshold for a trained model using custom cost
     function that can be defined using combination of True Positives, True Negatives,
@@ -7951,12 +7977,12 @@ def optimize_threshold(
     logger.info("Defining loss function")
 
     def calculate_loss(
-            actual,
-            predicted,
-            tp_cost=true_positive,
-            tn_cost=true_negative,
-            fp_cost=false_positive,
-            fn_cost=false_negative,
+        actual,
+        predicted,
+        tp_cost=true_positive,
+        tn_cost=true_negative,
+        fp_cost=false_positive,
+        fn_cost=false_negative,
     ):
 
         # true positives
@@ -7997,6 +8023,7 @@ def optimize_threshold(
     logger.info("Iteration starts at 0")
 
     for i in grid:
+
         pred_prob = (predicted >= i).astype(int)
         cost.append(calculate_loss(actual, pred_prob))
 
@@ -8020,6 +8047,7 @@ def optimize_threshold(
 
     t = x0
     if html_param:
+
         fig.add_shape(
             dict(
                 type="line", x0=x0, y0=y0, x1=x1, y1=y1, line=dict(color="red", width=2)
@@ -8045,8 +8073,9 @@ def optimize_threshold(
 
 
 def assign_model(
-        model, transformation: bool = False, score: bool = True, verbose: bool = True
+    model, transformation: bool = False, score: bool = True, verbose: bool = True
 ) -> pd.DataFrame:
+
     """
     This function assigns each of the data point in the dataset passed during setup
     stage to one of the clusters using trained model object passed as model param.
@@ -8143,7 +8172,7 @@ def assign_model(
 
 
 def predict_model_unsupervised(
-        estimator, data: pd.DataFrame, ml_usecase: Optional[MLUsecase] = None,
+    estimator, data: pd.DataFrame, ml_usecase: Optional[MLUsecase] = None,
 ) -> pd.DataFrame:
     function_params_str = ", ".join(
         [f"{k}={v}" for k, v in locals().items() if k != "data"]
@@ -8192,16 +8221,17 @@ def predict_model_unsupervised(
 
 
 def predict_model(
-        estimator,
-        data: Optional[pd.DataFrame] = None,
-        probability_threshold: Optional[float] = None,
-        encoded_labels: bool = False,  # added in pycaret==2.1.0
-        raw_score: bool = False,
-        round: int = 4,  # added in pycaret==2.2.0
-        verbose: bool = True,
-        ml_usecase: Optional[MLUsecase] = None,
-        display: Optional[Display] = None,  # added in pycaret==2.2.0
+    estimator,
+    data: Optional[pd.DataFrame] = None,
+    probability_threshold: Optional[float] = None,
+    encoded_labels: bool = False,  # added in pycaret==2.1.0
+    raw_score: bool = False,
+    round: int = 4,  # added in pycaret==2.2.0
+    verbose: bool = True,
+    ml_usecase: Optional[MLUsecase] = None,
+    display: Optional[Display] = None,  # added in pycaret==2.2.0
 ) -> pd.DataFrame:
+
     """
     This function is used to predict label and probability score on the new dataset
     using a trained estimator. New unseen data can be passed to data param as pandas
@@ -8315,9 +8345,9 @@ def predict_model(
     try:
         np.random.seed(seed)
         if not display:
-            display = Display(verbose=verbose, html_param=html_param, )
+            display = Display(verbose=verbose, html_param=html_param,)
     except:
-        display = Display(verbose=False, html_param=False, )
+        display = Display(verbose=False, html_param=False,)
 
     dtypes = None
 
@@ -8449,11 +8479,11 @@ def predict_model(
 
 
 def finalize_model(
-        estimator,
-        fit_kwargs: Optional[dict] = None,
-        groups: Optional[Union[str, Any]] = None,
-        model_only: bool = True,
-        display: Optional[Display] = None,
+    estimator,
+    fit_kwargs: Optional[dict] = None,
+    groups: Optional[Union[str, Any]] = None,
+    model_only: bool = True,
+    display: Optional[Display] = None,
 ) -> Any:  # added in pycaret==2.2.0
 
     """
@@ -8521,7 +8551,7 @@ def finalize_model(
     groups = _get_groups(groups)
 
     if not display:
-        display = Display(verbose=False, html_param=html_param, )
+        display = Display(verbose=False, html_param=html_param,)
 
     np.random.seed(seed)
 
@@ -8586,11 +8616,12 @@ def finalize_model(
 
 
 def deploy_model(
-        model,
-        model_name: str,
-        authentication: dict,
-        platform: str = "aws",  # added gcp and azure support in pycaret==2.1
+    model,
+    model_name: str,
+    authentication: dict,
+    platform: str = "aws",  # added gcp and azure support in pycaret==2.1
 ):
+
     """
     (In Preview)
 
@@ -8775,9 +8806,9 @@ def create_webservice(model, model_endopoint, api_key=True, pydantic_payload=Non
             name: (Optional[type(t)], ...)
             for name, t in json.loads(
                 data_before_preprocess.drop(columns=[target_param])
-                    .convert_dtypes()
-                    .sample(1)
-                    .to_json(orient="records")
+                .convert_dtypes()
+                .sample(1)
+                .to_json(orient="records")
             )[0].items()
         }
         print(fields)
@@ -8843,10 +8874,10 @@ def create_webservice(model, model_endopoint, api_key=True, pydantic_payload=Non
     app = FastAPI(
         title="REST API for ML prediction created by Pycaret",
         description="This is the REST API for the ML model generated"
-                    "by the Pycaret library: https://pycaret.org. "
-                    "All endpoints should run asynchronously, please validate"
-                    "the Pydantic model and read api documentation. "
-                    "In case of trouble, please add issuesto github: https://github.com/pycaret/pycaret/issues",
+        "by the Pycaret library: https://pycaret.org. "
+        "All endpoints should run asynchronously, please validate"
+        "the Pydantic model and read api documentation. "
+        "In case of trouble, please add issuesto github: https://github.com/pycaret/pycaret/issues",
         version="pycaret: {}".format(__version__()),
         externalDocs={"Pycaret": "https://pycaret.org/"},
     )
@@ -8869,7 +8900,7 @@ def create_webservice(model, model_endopoint, api_key=True, pydantic_payload=Non
 
     @app.post("/predict/{}".format(model_endopoint))
     def post_predict(
-            block_data: pydantic_payload, authenticated: bool = Depends(validation)
+        block_data: pydantic_payload, authenticated: bool = Depends(validation)
     ):
         # encode input data
         try:
@@ -8926,7 +8957,7 @@ def save_model(
         When set to True, only trained model object is saved and all the
         transformations are ignored.
 
-    **kwargs:
+    **kwargs: 
         Additional keyword arguments to pass to joblib.dump().
 
     verbose: bool, default = True
@@ -8947,11 +8978,12 @@ def save_model(
 
 
 def load_model(
-        model_name,
-        platform: Optional[str] = None,
-        authentication: Optional[Dict[str, str]] = None,
-        verbose: bool = True,
+    model_name,
+    platform: Optional[str] = None,
+    authentication: Optional[Dict[str, str]] = None,
+    verbose: bool = True,
 ):
+
     """
     This function loads a previously saved transformation pipeline and model
     from the current active directory into the current python environment.
@@ -9002,6 +9034,7 @@ def load_model(
 
 
 def automl(optimize: str = "Accuracy", use_holdout: bool = False) -> Any:
+
     """
     This function returns the best model out of all models created in
     current active environment based on metric defined in optimize parameter.
@@ -9117,8 +9150,9 @@ def pull(pop=False) -> pd.DataFrame:  # added in pycaret==2.2.0
 
 
 def models(
-        type: Optional[str] = None, internal: bool = False, raise_errors: bool = True,
+    type: Optional[str] = None, internal: bool = False, raise_errors: bool = True,
 ) -> pd.DataFrame:
+
     """
     Returns table of models available in model library.
 
@@ -9222,7 +9256,7 @@ def models(
 
 
 def get_metrics(
-        reset: bool = False, include_custom: bool = True, raise_errors: bool = True,
+    reset: bool = False, include_custom: bool = True, raise_errors: bool = True,
 ) -> pd.DataFrame:
     """
     Returns table of metrics available.
@@ -9304,13 +9338,13 @@ def _get_metric(name_or_id: str, metrics: Optional[Any] = None):
 
 
 def add_metric(
-        id: str,
-        name: str,
-        score_func: type,
-        target: str = "pred",
-        greater_is_better: bool = True,
-        multiclass: bool = True,
-        **kwargs,
+    id: str,
+    name: str,
+    score_func: type,
+    target: str = "pred",
+    greater_is_better: bool = True,
+    multiclass: bool = True,
+    **kwargs,
 ) -> pd.Series:
     """
     Adds a custom metric to be used in all functions.
@@ -9422,6 +9456,7 @@ def remove_metric(name_or_id: str):
 
 
 def get_logs(experiment_name: Optional[str] = None, save: bool = False) -> pd.DataFrame:
+
     """
     Returns a table with experiment logs consisting
     run details, parameter, metrics and tags.
@@ -9472,6 +9507,7 @@ def get_logs(experiment_name: Optional[str] = None, save: bool = False) -> pd.Da
 
 
 def get_config(variable: str):
+
     """
     This function is used to access global environment variables.
     Following variables can be accessed:
@@ -9518,6 +9554,7 @@ def get_config(variable: str):
 
 
 def set_config(variable: str, value):
+
     """
     This function is used to reset global environment variables.
     Following variables can be accessed:
@@ -9558,6 +9595,7 @@ def set_config(variable: str, value):
 
 
 def save_config(file_name: str):
+
     """
     This function is used to save all enviroment variables to file,
     allowing to later resume modeling without rerunning setup().
@@ -9576,6 +9614,7 @@ def save_config(file_name: str):
 
 
 def load_config(file_name: str):
+
     """
     This function is used to load enviroment variables from file created with save_config(),
     allowing to later resume modeling without rerunning setup().
@@ -9662,12 +9701,12 @@ def load_config(file_name: str):
 
 
 def _choose_better(
-        models_and_results: list,
-        compare_dimension: str,
-        fold: int,
-        fit_kwargs: Optional[dict] = None,
-        groups: Optional[Union[str, Any]] = None,
-        display: Optional[Display] = None,
+    models_and_results: list,
+    compare_dimension: str,
+    fold: int,
+    fit_kwargs: Optional[dict] = None,
+    groups: Optional[Union[str, Any]] = None,
+    display: Optional[Display] = None,
 ):
     """
     When choose_better is set to True, optimize metric in scoregrid is
@@ -9775,7 +9814,7 @@ def _is_special_model(e, models=None) -> bool:
 
 
 def _calculate_metrics_supervised(
-        y_test, pred, pred_prob, weights: Optional[list] = None,
+    y_test, pred, pred_prob, weights: Optional[list] = None,
 ) -> dict:
     """
     Calculate all metrics in _all_metrics.
@@ -9810,7 +9849,7 @@ def _calculate_metrics_supervised(
 
 
 def _calculate_metrics_unsupervised(
-        X, labels, ground_truth=None, ml_usecase=None
+    X, labels, ground_truth=None, ml_usecase=None
 ) -> dict:
     """
     Calculate all metrics in _all_metrics.
@@ -9846,18 +9885,18 @@ def get_ml_task(y):
 
 
 def _mlflow_log_model(
-        model,
-        model_results,
-        score_dict: dict,
-        source: str,
-        runtime: float,
-        model_fit_time: float,
-        _prep_pipe,
-        log_holdout: bool = True,
-        log_plots: bool = False,
-        tune_cv_results=None,
-        URI=None,
-        display: Optional[Display] = None,
+    model,
+    model_results,
+    score_dict: dict,
+    source: str,
+    runtime: float,
+    model_fit_time: float,
+    _prep_pipe,
+    log_holdout: bool = True,
+    log_plots: bool = False,
+    tune_cv_results=None,
+    URI=None,
+    display: Optional[Display] = None,
 ):
     logger = get_logger()
 
@@ -10030,7 +10069,7 @@ def _mlflow_log_model(
 
 
 def _get_columns_to_stratify_by(
-        X: pd.DataFrame, y: pd.DataFrame, stratify: Union[bool, List[str]], target: str
+    X: pd.DataFrame, y: pd.DataFrame, stratify: Union[bool, List[str]], target: str
 ) -> pd.DataFrame:
     if not stratify:
         stratify = None
